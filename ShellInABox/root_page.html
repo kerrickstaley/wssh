@@ -51,7 +51,7 @@
     <script type="text/javascript"><!--
       // Check that our URL is well-formed. Redirect to HTTPS if necessary
       (function() {
-        var hasSSL = %s;
+        var hasSSL = true;
         var path   = document.location.pathname;
         var proto  = (hasSSL || (document.location.protocol == 'https:'))
                      ? 'https:' : 'http:';
@@ -100,8 +100,8 @@
         }
       })();
     --></script>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <script type="text/javascript" src="ShellInABox.js"></script>
+    <script type="text/javascript" src="vt100.js"></script>
+    <script type="text/javascript" src="shell_in_a_box.js"></script>
   </head>
   <!-- Load ShellInABox from a timer as Konqueror sometimes fails to
        correctly deal with the enclosing frameset (if any), if we do not
