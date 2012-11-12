@@ -189,7 +189,7 @@ function handlePaste(e)
 
 function terminalInit()
 {
-	new VT100(undefined, $("#vt100")[0]);
+	new WsshTerminal(undefined, $("#vt100")[0]);
 }
 
 // The primary wssh initialization function.
