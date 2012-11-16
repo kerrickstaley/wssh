@@ -39,7 +39,7 @@ $(document).ready(function(){
 				$(this).find('.inner_li').hide();
 			});
 			
-	/**$('#file-system:not(.icon)').bind('contextmenu',function(e){
+	$('#file-system:not(.icon)').bind('contextmenu',function(e){
 			var $cmenu = $(this).next();
 			$('<div class="overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width:'100%', height: '100%', zIndex: '100' }).click(function() {
 				$(this).remove();
@@ -74,7 +74,7 @@ $(document).ready(function(){
 			function () {
 				$(this).css('background-color' , '#fff' );
 				$(this).find('.inner_li').hide();
-			});*/
+			});
  
 	
 });
