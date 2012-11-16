@@ -1,0 +1,19 @@
+html{
+background-color:#b0c4de;
+}
+
+#file-system{
+	width:60em;
+	height:20em;
+	padding:10px;
+	border:5px solid gray;
+	margin:4em;
+}
+
+#shell{
+	width:60em;
+	height:20em;
+	padding:10px;
+	border:5px solid gray;
+	margin:4em;
+}
