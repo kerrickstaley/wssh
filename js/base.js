@@ -4,6 +4,12 @@ function setIconImages() {
 }
 
 
+function fileSystemUpdate($data) {
+	$('div#file-system').html($data);
+	setIconImages();
+}
+
+
 // BUG: every time a submenu is clicked, another click is bound to each .menu-item
 // BUG: after a page load, the first attempt to click a .menu-item within a popupMenu seems to have no effect.
 
@@ -34,7 +40,18 @@ function popupClose($menu)
 
 $(document).ready(function() {
 
-	setIconImages();
+	// fill div#file-system with some initial data
+	var $fileSystemData =
+	$("<div class='icon folder'> \
+		<img/> \
+		<span>Folder Name</span> \
+	</div> \
+	<div class='icon file'> \
+		<img/> \
+		<span>File Name</span> \
+	</div>");
+
+	fileSystemUpdate($fileSystemData);
 
 	$('div#overlay').css('zIndex', 0).hide();
 	$('div#file-system').css('z-index', 10).show();
