@@ -1,0 +1,19 @@
+div#home-icon img,
+div#new-file-icon img,
+div#new-folder-icon img,
+div#trash-icon img,
+div#logout-icon img,
+div#file-system .folder img,
+div#file-system .file img
+{
+	width: 48px;
+	height: 48px;
+}
+
+div#home-icon img            { content: url("/img/home.png"); }
+div#new-file-icon img        { content: url("/img/new-file.png"); }
+div#new-folder-icon img      { content: url("/img/new-folder.png"); }
+div#trash-icon img           { content: url("/img/trash.png"); }
+div#logout-icon img          { content: url("/img/logout.png"); }
+div#file-system .folder img  { content: url("/img/folder.png"); }
+div#file-system .file img    { content: url("/img/file.png"); }

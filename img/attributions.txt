@@ -4,3 +4,8 @@ From ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/3.6/gnome-icon-theme-3.6.0
 
 folder.png: places/folder.png
 file.png: mimetypes/text-x-generic.png
+new-file.png: actions/document-new.png
+new-folder.png: actions/folder-new.png
+trash-empty.png: places/user-trash.png
+trash-full.png: status/user-trash-full.png
+logout.png: actions/media-eject.png
