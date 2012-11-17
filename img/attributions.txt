@@ -1,0 +1,6 @@
+Attribution of art assets:
+
+From ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/3.6/gnome-icon-theme-3.6.0.tar.xz
+
+folder.png: places/folder.png
+file.png: mimetypes/text-x-generic.png

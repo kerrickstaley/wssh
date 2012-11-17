@@ -1,80 +1,55 @@
-$(document).ready(function(){
+function setIconImages() {
+	$('div#file-system .folder img').attr({ src:"img/folder.png", alt:"folder", width:"48", height:"48" });
+	$('div#file-system .file img').attr({ src:"img/file.png", alt:"file", width:"48", height:"48" });
+}
 
-	//$('div#file-system').html('<img src="img/folder.png" alt="folder" width="42" height="42"/>');
+
+// BUG: every time a submenu is clicked, another click is bound to each .menu-item
+// BUG: after a page load, the first attempt to click a .menu-item within a popupMenu seems to have no effect.
+
+function popupOpen($menu, x, y) {
+
+	$menu.css({ left: x, top: y, zIndex: 30, position: "absolute" }).on('click', function() {
+		$menu.find('div.menu-item').on('click', function(e) {
+			alert($(this).text());
+			popupClose($menu);
+		});
+	}).show();
+
+	$('div#overlay').css('zIndex', 20).on('click', function(e) {
+		popupClose($menu);
+	}).on('contextmenu', function(e) {
+		popupClose($menu);
+	}).show();
+};
+
+function popupClose($menu)
+{
+	$menu.off('click').hide();
+	$('div#overlay').css('zIndex', 0).off('click').off('contextmenu').hide();
+};
+
+
+
+
+$(document).ready(function() {
+
+	setIconImages();
+
+	$('div#overlay').css('zIndex', 0).hide();
+	$('div#file-system').css('z-index', 10).show();
+	$('div.icons').css('z-index', 10).show();
+	$('div.popup-menu').css('z-index', 20).hide();
 	
-	$('.icon').bind('contextmenu',function(e){
-			var $cmenu = $(this).next();
-			$('<div class="overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width:                                                   '100%', height: '100%', zIndex: '100' }).click(function() {
-				$(this).remove();
-				$cmenu.hide();
-			}).bind('contextmenu' , function(){return false;}).appendTo(document.body);
-			$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).show();
- 
-			return false;
-			 });
- 
-			 $('.object-menu .first_li').live('click',function() {
-				if( $(this).children().size() == 1 ) {
-					alert($(this).children().text());
-					$('.object-menu').hide();
-					$('.overlay').hide();
-				}
-			 });
- 
-			 $('.object-menu .inner_li span').live('click',function() {
-					alert($(this).text());
-					$('.object-menu').hide();
-					$('.overlay').hide();
-			 });
- 
- 
-			$(".first_li , .sec_li, .inner_li span").hover(function () {
-				$(this).css({backgroundColor : '#E0EDFE' , cursor : 'pointer'});
-			if ( $(this).children().size() >0 )
-					$(this).find('.inner_li').show();	
-					$(this).css({cursor : 'default'});
-			}, 
-			function () {
-				$(this).css('background-color' , '#fff' );
-				$(this).find('.inner_li').hide();
-			});
-			
-	$('#file-system:not(.icon)').bind('contextmenu',function(e){
-			var $cmenu = $(this).next();
-			$('<div class="overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width:'100%', height: '100%', zIndex: '100' }).click(function() {
-				$(this).remove();
-				$cmenu.hide();
-			}).bind('contextmenu' , function(){return false;}).appendTo(document.body);
-			$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).show();
- 
-			return false;
-			 });
- 
-			 $('.space-menu.first_li').live('click',function() {
-				if( $(this).children().size() == 1 ) {
-					alert($(this).children().text());
-					$('.space-menu').hide();
-					$('.overlay').hide();
-				}
-			 });
- 
-			 $('.space-menu .inner_li span').live('click',function() {
-					alert($(this).text());
-					$('.space-menu').hide();
-					$('.overlay').hide();
-			 });
- 
- 
-			$(".first_li , .sec_li, .inner_li span").hover(function () {
-				$(this).css({backgroundColor : '#E0EDFE' , cursor : 'pointer'});
-			if ( $(this).children().size() >0 )
-					$(this).find('.inner_li').show();	
-					$(this).css({cursor : 'default'});
-			}, 
-			function () {
-				$(this).css('background-color' , '#fff' );
-				$(this).find('.inner_li').hide();
-			});
- 
-	
+
+	$('div#file-system .icon').on('contextmenu', function(e) {
+		popupOpen($('div#icon-menu'), e.pageX, e.pageY);
+		return false;
+	});
+
+
+	$('div#file-system:not(.icon)').on('contextmenu', function(e) {
+		popupOpen($('div#space-menu'), e.pageX, e.pageY);
+		return false;
+	});
 });

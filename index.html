@@ -6,37 +6,46 @@
 	</head>
 	<body>
 		<div id="file-system">
-			<div class="icon">
-				<img src="img/folder.png" alt="folder" width="42" height="42"/>
+			<div class="icon folder">
+				<img/>
+				<span>Folder Name</span>
 			</div>
-
-			<div class="object-menu">
-					<div class="first_li"><span>Open</span></div>
-						<div class="sep_li"></div>
-				   <div class="first_li"><span>Cut</span></div>
-				   <div class="first_li"><span>Copy</span></div>
-						<div class="sep_li"></div>
-		 
-				<div class="first_li"><span>Delete</span></div>
-				<div class="first_li"><span>Create Shortcut</span></div>
-				<div class="first_li"><span>Rename</span></div>
-				<div class="sep_li"></div>
-				<div class="first_li"><span>Sublist</span>
-					<div class="inner_li">
-							<span>Something 1</span>
-							<span>Something 2</span>
-					</div>
-				</div>
-
-		 
+			<div class="icon file">
+				<img/>
+				<span>File Name</span>
 			</div>
-
-
 		</div>
-					<div class="space-menu">
-				<div class="first_li"><span>New Folder</span></div>	 
+
+		<div id="icon-menu" class="popup-menu">
+			<div class="menu-item"><span>Open</span></div>
+			<div class="menu-separator"></div>
+			<div class="menu-item"><span>Cut</span></div>
+			<div class="menu-item"><span>Copy</span></div>
+			<div class="menu-item"></div>
+		 
+			<div class="menu-item"><span>Delete</span></div>
+			<div class="menu-item"><span>Create Shortcut</span></div>
+			<div class="menu-item"><span>Rename</span></div>
+			<div class="menu-separator"></div>
+			<div class="submenu"><span>Submenu</span>
+				<div class="menu-item">
+					<span>submenu item 1</span>
+				</div>
+				<div class="menu-item">
+					<span>submenu item 2</span>
+				</div>
 			</div>
+		</div>
+
+		<div id="space-menu" class="popup-menu">
+			<div class="menu-item"><span>New Folder</span></div>	 
+		</div>
+
 		<div id="shell">
+		</div>
+
+		<!-- This is meant to catch mouse-clicks in certain contexts, (ie. when a popup menu is open). -->
+		<div id="overlay">
 		</div>
 
 	</body>
