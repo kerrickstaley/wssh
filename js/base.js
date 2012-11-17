@@ -45,12 +45,14 @@ $(document).ready(function() {
 
 	// fill div#file-system and div#path-bar with some initial data:
 	var $fileSystemData = $(" \
-		<div class='icon folder'> \
-			<img/> \
+		<div class='folder'> \
+			<div class='folder-icon'> \
+			</div> \
 			<span>Folder Name</span> \
 		</div> \
-		<div class='icon file'> \
-			<img/> \
+		<div class='file'> \
+			<div class='file-icon'> \
+			</div> \
 			<span>File Name</span> \
 		</div>"
 	);
