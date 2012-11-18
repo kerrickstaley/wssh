@@ -1,13 +1,22 @@
-
-
+// Assumes that 'cwd' is an absolute pathname of a directory.
 function pathBarUpdate(cwd)
 {
-	// TODO: interpret and add <div> elements according to cwd
+	var path = cwd.split('/');
 
-	//$('div#path-bar').add('<div>/home/username</div>');  // TODO: why doesn't adding an html fragment work?
+	for (var idx in path)
+	{
+		$('div#path-bar').append('<div class="path-link">' + path[idx].concat('/') + '</div>');
+	}
+
+	$('div#path-bar div.path-link').on('click', function(e) {
+		// TODO
+		alert($(this).text());
+	});
 };
 
-function fileSystemUpdate($data) {
+
+function fileSystemUpdate($data)
+{
 	$('div#file-system').html($data);
 };
 
@@ -16,8 +25,8 @@ function fileSystemUpdate($data) {
 // BUG: after a page load, the first attempt to click a .menu-item within a popupMenu seems to have no effect.
 // BUG: overlay does not cover entire document, only that part of the document which is initially visible.
 
-function popupOpen($menu, x, y) {
-
+function popupOpen($menu, x, y)
+{
 	$menu.css({ left: x, top: y, zIndex: 30, position: "absolute" }).on('click', function() {
 		$menu.find('div.menu-item').on('click', function(e) {
 			alert($(this).text());
@@ -41,8 +50,8 @@ function popupClose($menu)
 
 
 
-$(document).ready(function() {
-
+$(document).ready(function()
+{
 	// fill div#file-system and div#path-bar with some initial data:
 	var $fileSystemData = $(" \
 		<div class='folder'> \
