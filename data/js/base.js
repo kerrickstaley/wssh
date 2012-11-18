@@ -1,23 +1,57 @@
-// Assumes that 'cwd' is an absolute pathname of a directory.
-function pathBarUpdate(cwd)
+// Prompts a change directory command to be (asyncronously) sent over the websocket connection.
+// Assumes that 'dir' is an absolute pathname of a directory.
+function requestChangeDirectory(dir)
 {
-	var path = cwd.split('/');
+	alert('cd ' + dir);
+}
+
+
+// Interprets a JSON-encoded string as an object describing the current working directory and its contents.
+function handleChangeDirectory(fs)
+{
+	fs = JSON.parse(fs);
+	pathBarUpdate(fs.cwd);
+	fileSystemUpdate(fs);
+}
+
+
+// Assumes that 'dir' is an absolute pathname of a directory, and updates '#path-bar' accordingly.
+function pathBarUpdate(dir)
+{
+	var path = dir.split('/');
+	var $path_bar = $('div#path-bar');
+
+	$path_bar.find('div.path-link').remove();
 
 	for (var idx in path)
 	{
-		$('div#path-bar').append('<div class="path-link">' + path[idx].concat('/') + '</div>');
+		$path_bar.append('<div class="path-link">' + path[idx].concat('/') + '</div>');
 	}
 
-	$('div#path-bar div.path-link').on('click', function(e) {
-		// TODO
-		alert($(this).text());
+	$path_bar.find('div.path-link').on('click', function(e) {
+		// TODO: this doesn't seem very safe
+		requestChangeDirectory($(this).text());
 	});
 };
 
 
-function fileSystemUpdate($data)
+// Expects an object which at least has a cwd property.
+function fileSystemUpdate(fs)
 {
-	$('div#file-system').html($data);
+	var $fs_div = $('div#file-system');
+
+	$fs_div.empty();
+
+	// TODO: interpret each file and folder in 'fs' as an additional icon
+	for (var idx in fs.folders)
+	{
+		$fs_div.append('<div class="icon folder-icon">' + fs.folders[idx] + '</div>')
+	}
+
+	for (var idx in fs.files)
+	{
+		$fs_div.append('<div class="icon file-icon">' + fs.files[idx] + '</div>')
+	}
 };
 
 
@@ -53,25 +87,14 @@ function popupClose($menu)
 $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
-	var $fileSystemData = $(" \
-		<div class='folder'> \
-			<div class='folder-icon'> \
-			</div> \
-			<span>Folder Name</span> \
-		</div> \
-		<div class='file'> \
-			<div class='file-icon'> \
-			</div> \
-			<span>File Name</span> \
-		</div>"
-	);
+	// TODO: get JSON-encoded string from file/websocket
+	fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["file1.txt", "file2.txt"] };
+	fs = JSON.stringify(fs);
+	handleChangeDirectory(fs);
 
-	pathBarUpdate('/home/username');
-	fileSystemUpdate($fileSystemData);
 
 	// Initially set zIndex depths in order to use overlay with menu;
 	// also, show and hide relavant items.
-
 	$('div#overlay').css('zIndex', 0).hide();
 	$('div#file-system').css('z-index', 10).show();
 	$('div.icons').css('z-index', 10).show();
@@ -80,13 +103,36 @@ $(document).ready(function()
 
 
 	// Assign popup menu action handlers to both .icons and the background of #file-system:
-	$('div#file-system .icon').on('contextmenu', function(e) {
+	$('div#file-system div.icon').on('contextmenu', function(e) {
 		popupOpen($('div#icon-menu'), e.pageX, e.pageY);
 		return false;
 	});
 
-	$('div#file-system:not(.icon)').on('contextmenu', function(e) {
+	$('div#file-system:not(div.icon)').on('contextmenu', function(e) {
 		popupOpen($('div#space-menu'), e.pageX, e.pageY);
 		return false;
+	});
+
+
+	// Assign action handlers to each of the persistent icons:
+	$('div#home-icon').on('click', function(e) {
+		// TODO: could be unsafe
+		requestChangeDirectory('~');
+	});
+
+	$('div#new-file-icon').on('click', function(e) {
+		alert('new file');
+	});
+
+	$('div#new-folder-icon').on('click', function(e) {
+		alert('new folder');
+	});
+
+	$('div#trash-icon').on('click', function(e) {
+		alert('trash');
+	});
+
+	$('div#logout-icon').on('click', function(e) {
+		alert('logout');
 	});
 });
