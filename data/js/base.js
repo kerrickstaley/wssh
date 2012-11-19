@@ -44,18 +44,18 @@ function updateFileSystem(fs)
 	// For each file and folder in 'fs' add an additional icon to '#file-system'.
 	for (var idx in fs.folders)
 	{
-		$fs_div.append('<div class="icon folder-icon">' + fs.folders[idx] + '</div>')
+		$fs_div.append('<div class="folder"><div class="icon"></div>' + fs.folders[idx] + '</div>')
 	}
 
 	for (var idx in fs.files)
 	{
-		$fs_div.append('<div class="icon file-icon">' + fs.files[idx] + '</div>')
+		$fs_div.append('<div class="file"><div class="icon"></div>' + fs.files[idx] + '</div>')
 	}
 
 
 	// Make each of the newly created icons selectable:
 	//$fs_div.find('div.icon').addClass('ui-state-default');  // I saw this in the tutorial. What does it do?
-	$fs_div.selectable({ filter: 'div.icon' });
+	$fs_div.selectable({ filter: 'div.file, div.folder' });
 };
 
 
@@ -149,14 +149,14 @@ $(document).ready(function()
 		if(e.metaKey && e.which == 13)
 		{
 			var $selection = $('div#file-system div.ui-selected');
-			var $files = $selection.filter('div.file-icon');
-			var $folders = $selection.filter('div.folder-icon');
+			var $files = $selection.filter('div.file');
+			var $folders = $selection.filter('div.folder');
 
 			if ($files.length == 0 && $folders.length == 1)
 			{
 				alert('cd ' + $folders.text());
 			}
-			else
+			else if ($files.length != 0 || folders.length != 0)
 			{
 				alert('send selected to terminal');
 			}

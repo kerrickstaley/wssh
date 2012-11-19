@@ -45,11 +45,15 @@ div#path-bar div#home-icon
 	padding:0.5em;
 }
 
-div#file-system div.icon
+div#file-system div.file,
+div#file-system div.folder
 {
 	float:left;
-	padding: 1em;
+	padding: 0.8em;
+	margin: 0.5em
 }
+
+
 
 div#path-bar div.path-link
 {

@@ -16,19 +16,15 @@ div#new-folder-icon  { background-image: url("http://dwtj.me/img/new-folder.png"
 div#trash-icon       { background-image: url("http://dwtj.me/img/trash-empty.png"); }
 div#logout-icon      { background-image: url("http://dwtj.me/img/logout.png"); }
 
-div.icon
+
+div#file-system div.folder div.icon,
+div#file-system div.file div.icon
 {
+	width: 48px;
+	height: 48px;
 	background-repeat:no-repeat;
 }
 
 
-div#file-system div.folder-icon,
-div#file-system div.file-icon
-{
-	width: 48px;
-	height: 48px;
-}
-
-
-div#file-system div.folder-icon  { background-image: url("http://dwtj.me/img/folder.png"); }
-div#file-system div.file-icon    { background-image: url("http://dwtj.me/img/file.png"); }
+div#file-system div.folder div.icon  { background-image: url("http://dwtj.me/img/folder.png"); }
+div#file-system div.file div.icon    { background-image: url("http://dwtj.me/img/file.png"); }
