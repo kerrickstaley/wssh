@@ -77,6 +77,7 @@ function popupOpen($menu, x, y)
 	}).on('contextmenu', function(e) {
 		popupClose($menu);
 	}).show();
+	
 };
 
 function popupClose($menu)

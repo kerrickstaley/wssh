@@ -22,8 +22,8 @@ div#overlay {
 	height:100%;
 }
 
-.icon-menu,
-.space-menu
+#icon-menu,
+#space-menu
 {
 	border:1px solid #aaa;
 	position:absolute;
@@ -32,8 +32,8 @@ div#overlay {
 	font-size:0.75em;
 }
 
-.icon-menu .menu-item span,
-.space-menu .menu-item span
+#icon-menu .menu-item span,
+#space-menu .menu-item span
 {
 	width:100px;
 	display:block;
@@ -41,7 +41,16 @@ div#overlay {
 	cursor:pointer
 }
 
-.icon-menu .menu-item
+#icon-menu .menu-item span:hover,
+#space-menu .menu-item span:hover
+{
+	background : #E0EDFE;
+	cursor : 'pointer'
+}
+
+/*
+#icon-menu .menu-item
+#space-menu .menu-item
 {
 	display:none;
 	margin-left:120px;
@@ -50,22 +59,13 @@ div#overlay {
 	border-left:1px solid #ccc;
 	margin-top:-28px;
 	background:#fff;
-}
+}*/
 
-.icon-menu .menu-separator
-.space-menu .menu-separator
+#icon-menu .menu-separator,
+#space-menu .menu-separator
 {
 	border-top: 1px ridge #aaa;
 	margin:5px 0
 }
-	   
-.space-menu .submenu .menu-item
-{
-	display:none;
-	margin-left:120px;
-	position:absolute;
-	border:1px solid #aaa;
-	border-left:1px solid #ccc;
-	margin-top:-28px;
-	background:#fff;
-}
+
+
