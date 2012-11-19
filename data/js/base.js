@@ -59,18 +59,9 @@ function updateFileSystem(fs)
 };
 
 
-// BUG: every time a submenu is clicked, another click is bound to each .menu-item
-// BUG: after a page load, the first attempt to click a .menu-item within a popupMenu seems to have no effect.
-// BUG: overlay does not cover entire document, only that part of the document which is initially visible.
-
 function popupOpen($menu, x, y)
 {
-	$menu.css({ left: x, top: y, zIndex: 30, position: "absolute" }).on('click', function() {
-		$menu.find('div.menu-item').on('click', function(e) {
-			alert($(this).text());
-			popupClose($menu);
-		});
-	}).show();
+	$menu.css({ left: x, top: y, zIndex: 30, position: "absolute" }).show();
 
 	$('div#overlay').css('zIndex', 20).on('click', function(e) {
 		popupClose($menu);
@@ -110,11 +101,16 @@ $(document).ready(function()
 	$('div#file-system div.icon').on('contextmenu', function(e) {
 		popupOpen($('div#icon-menu'), e.pageX, e.pageY);
 		return false;
-	});
+	})
 
 	$('div#file-system:not(div.icon)').on('contextmenu', function(e) {
 		popupOpen($('div#space-menu'), e.pageX, e.pageY);
 		return false;
+	});
+	
+	$(document).on('click', 'div.menu-item', function() {
+			alert($(this).text());
+			popupClose($('div.popup-menu'));
 	});
 
 
