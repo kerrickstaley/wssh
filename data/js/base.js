@@ -10,13 +10,13 @@ function requestChangeDirectory(dir)
 function handleChangeDirectory(fs)
 {
 	fs = JSON.parse(fs);
-	pathBarUpdate(fs.cwd);
-	fileSystemUpdate(fs);
+	updatePathBar(fs.cwd);
+	updateFileSystem(fs);
 }
 
 
 // Assumes that 'dir' is an absolute pathname of a directory, and updates '#path-bar' accordingly.
-function pathBarUpdate(dir)
+function updatePathBar(dir)
 {
 	var path = dir.split('/');
 	var $path_bar = $('div#path-bar');
@@ -36,13 +36,12 @@ function pathBarUpdate(dir)
 
 
 // Expects an object which at least has a cwd property.
-function fileSystemUpdate(fs)
+function updateFileSystem(fs)
 {
 	var $fs_div = $('div#file-system');
-
 	$fs_div.empty();
 
-	// TODO: interpret each file and folder in 'fs' as an additional icon
+	// For each file and folder in 'fs' add an additional icon to '#file-system'.
 	for (var idx in fs.folders)
 	{
 		$fs_div.append('<div class="icon folder-icon">' + fs.folders[idx] + '</div>')
@@ -52,6 +51,11 @@ function fileSystemUpdate(fs)
 	{
 		$fs_div.append('<div class="icon file-icon">' + fs.files[idx] + '</div>')
 	}
+
+
+	// Make each of the newly created icons selectable:
+	//$fs_div.find('div.icon').addClass('ui-state-default');  // I saw this in the tutorial. What does it do?
+	$fs_div.selectable({ filter: 'div.icon' });
 };
 
 
@@ -82,8 +86,7 @@ function popupClose($menu)
 };
 
 
-
-
+// The primary wssh initialization function.
 $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
@@ -134,5 +137,28 @@ $(document).ready(function()
 
 	$('div#logout-icon').on('click', function(e) {
 		alert('logout');
+	});
+
+
+	// Assign action handler to #file-system so that ctrl+Enter can prompt an event:
+	// TODO: Should this be attached to 'document'?
+	$(document).on('keydown', function(e) {
+
+		// If enter is pressed when meta key is held, then...
+		if(e.metaKey && e.which == 13)
+		{
+			var $selection = $('div#file-system div.ui-selected');
+			var $files = $selection.filter('div.file-icon');
+			var $folders = $selection.filter('div.folder-icon');
+
+			if ($files.length == 0 && $folders.length == 1)
+			{
+				alert('cd ' + $folders.text());
+			}
+			else
+			{
+				alert('send selected to terminal');
+			}
+		}
 	});
 });

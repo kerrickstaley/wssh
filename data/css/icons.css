@@ -9,13 +9,12 @@ div#logout-icon
 	background-repeat: no-repeat;
 }
 
+
 div#home-icon        { background-image: url("http://dwtj.me/img/home.png"); }
 div#new-file-icon    { background-image: url("http://dwtj.me/img/new-file.png"); }
 div#new-folder-icon  { background-image: url("http://dwtj.me/img/new-folder.png"); }
 div#trash-icon       { background-image: url("http://dwtj.me/img/trash-empty.png"); }
 div#logout-icon      { background-image: url("http://dwtj.me/img/logout.png"); }
-
-
 
 
 div#file-system div.folder-icon,
@@ -25,5 +24,10 @@ div#file-system div.file-icon
 	height: 48px;
 }
 
+
 div#file-system div.folder-icon  { background-image: url("http://dwtj.me/img/folder.png"); }
 div#file-system div.file-icon    { background-image: url("http://dwtj.me/img/file.png"); }
+
+
+div#file-system .ui-selecting  { background-color: #FECA40; }
+div#file-system .ui-selected   { background-color: #F39814; }
