@@ -1,17 +1,68 @@
-html{
+html
+{
 	background-color:#b0c4de;
 }
 
 
+div#header,
 div#file-system,
 div#shell
 {
-	width:60em;
-	height:20em;
-	padding:10px;
-	border:5px solid gray;
-	margin:4em;
+	width:50em;
+	height:16em;
+	padding:1em;
+	border:0.2em solid gray;
+	margin:1em;
 }
+
+
+div#header
+{
+	height: 50px;
+}
+
+div#path-bar
+{
+	float:left;
+}
+
+div#action-bar
+{
+	float:right;
+}
+
+div#action-bar div.action-icon
+{
+	float:left;
+}
+
+
+div#path-bar div#home-icon
+{
+	float:left;
+	width:48px;
+	height:48px;
+	padding:0.5em;
+}
+
+div#file-system div.icon
+{
+	float:left;
+	padding: 1em;
+}
+
+div#path-bar div.path-link
+{
+	float:left;
+	padding:1em;
+	margin:2px;
+	font-family:monospace;
+	background-color: LightGray;
+}
+
+
+div#file-system .ui-selecting  { background-color:#FECA40; }
+div#file-system .ui-selected   { background-color:#F39814; }
 
 
 div#overlay {
@@ -58,7 +109,7 @@ div#overlay {
 	border-top: 1px ridge #aaa;
 	margin:5px 0
 }
-	   
+
 .space-menu .submenu .menu-item
 {
 	display:none;
