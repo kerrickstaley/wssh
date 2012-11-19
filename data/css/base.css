@@ -8,7 +8,7 @@ div#header,
 div#file-system,
 div#shell
 {
-	width:50em;
+	width:47em;
 	height:16em;
 	padding:1em;
 	border:0.2em solid gray;
@@ -24,7 +24,18 @@ div#header
 div#path-bar
 {
 	float:left;
+	overflow-x: scroll;
 }
+
+div#path-bar div.path-link
+{
+	float:left;
+	padding:.7em;
+	margin:0.4em;
+	font-family:monospace;
+	background-color: LightGray;
+}
+
 
 div#action-bar
 {
@@ -37,7 +48,7 @@ div#action-bar div.action-icon
 }
 
 
-div#path-bar div#home-icon
+div#home-icon
 {
 	float:left;
 	width:48px;
@@ -45,24 +56,50 @@ div#path-bar div#home-icon
 	padding:0.5em;
 }
 
+div#file-system
+{
+	overflow-y: scroll;
+}
+
 div#file-system div.file,
 div#file-system div.folder
 {
 	float:left;
-	padding: 0.8em;
-	margin: 0.5em
+	width: 7em;
+	height: 6.5em;
+	padding: 0.5em;
+	margin: 0.3em;
+	font-family: monospace;
+	word-wrap: break-word;
 }
 
 
-
-div#path-bar div.path-link
+div#file-system div.file div.icon,
+div#file-system div.folder div.icon
 {
-	float:left;
-	padding:1em;
-	margin:2px;
-	font-family:monospace;
-	background-color: LightGray;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
+
+
+div#file-system div.file,
+div#file-system div.folder
+{
+	text-align: center;
+	width: 6em;
+}
+
+
+/* Why doesn't this work? */
+div.ui-selectable-helper
+{
+	border-color: black;
+	border-style: dashed;
+	border-width: thin;
+}
+
+
 
 
 div#file-system .ui-selecting  { background-color:#FECA40; }

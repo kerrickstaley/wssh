@@ -49,13 +49,16 @@ function updateFileSystem(fs)
 
 	for (var idx in fs.files)
 	{
-		$fs_div.append('<div class="file"><div class="icon"></div>' + fs.files[idx] + '</div>')
+		$fs_div.append('<div class="file"><div class="icon"></div><div class="text">' + fs.files[idx] + '</div></div>')
 	}
 
 
 	// Make each of the newly created icons selectable:
 	//$fs_div.find('div.icon').addClass('ui-state-default');  // I saw this in the tutorial. What does it do?
 	$fs_div.selectable({ filter: 'div.file, div.folder' });
+	$fs_div.find('div.folder').dblclick(function(e) {
+		alert('cd ' + $(this).text());
+	});
 };
 
 
@@ -83,7 +86,7 @@ $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
 	// TODO: get JSON-encoded string from file/websocket
-	fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["file1.txt", "file2.txt"] };
+	fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"] };
 	fs = JSON.stringify(fs);
 	handleChangeDirectory(fs);
 
@@ -158,4 +161,7 @@ $(document).ready(function()
 			}
 		}
 	});
+
+
+	// TODO: Make the files and folders within #file-system draggable and droppable as a group.
 });
