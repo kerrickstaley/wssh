@@ -53,12 +53,62 @@ function updateFileSystem(fs)
 	}
 
 
-	// Make each of the newly created icons selectable:
-	//$fs_div.find('div.icon').addClass('ui-state-default');  // I saw this in the tutorial. What does it do?
-	$fs_div.selectable({ filter: 'div.file, div.folder' });
+	// Make each folder create an event when it is double-clicked.
 	$fs_div.find('div.folder').dblclick(function(e) {
 		alert('cd ' + $(this).text());
 	});
+
+
+	// Make each of the newly created files and folders selectable.
+	$fs_div.selectable({
+
+		filter: 'div.file, div.folder',
+
+		selected: function(e, ui) {
+
+			// Whenever a '.ui-selectee' is selected, it also becomes draggable.
+			$(ui.selected).draggable({
+
+				//var start_loc;
+				containment: 'document',  // TODO: this does not work because of y-overflow
+				revert: true,
+				revertDuration: 0,
+				scroll: false,
+
+				start: function(e, ui) {
+					$fs_div.selectable('disable');
+				},
+
+				// Whenever any draggable is dragged, every '.ui-selected' element is also moved.
+				drag: function(e, ui) {
+
+					// TODO: how does this work?
+					$fs_div.find('div.ui-selected').each(function(idx) {
+						$(this).css({
+							top: ui.helper.css("top"),
+							left: ui.helper.css("left")
+						});
+					});
+				},
+
+				stop: function(e, ui) {
+					$fs_div.find('div.ui-selected').each(function(idx) {
+						$(this).css({
+							top: ui.helper.css("top"),
+							left: ui.helper.css("left")
+						});
+					});
+
+					$fs_div.selectable('enable');
+				}
+			});
+		},
+
+		unselected: function(e, ui) {
+			$(ui.unselected).draggable('destroy');
+		}
+	});
+
 };
 
 
