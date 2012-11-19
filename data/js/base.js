@@ -86,8 +86,9 @@ $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
 	// TODO: get JSON-encoded string from file/websocket
-	fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"] };
-	fs = JSON.stringify(fs);
+	var fs = { cwd: "/home/user/is/getting/stranger/and/stranger/and/longer/than/long", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"] };
+	var fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]}
+	// fs = JSON.stringify(fs);
 	handleChangeDirectory(fs);
 
 

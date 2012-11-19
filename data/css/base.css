@@ -8,29 +8,30 @@ div#header,
 div#file-system,
 div#shell
 {
-	width:47em;
+	width:810px;
 	height:16em;
 	padding:1em;
 	border:0.2em solid gray;
-	margin:1em;
+	margin:1em 2em;
 }
 
 
 div#header
 {
-	height: 50px;
+	height: auto;
+	min-height: 3em;
 }
 
 div#path-bar
 {
 	float:left;
-	overflow-x: scroll;
+	width:30em
 }
 
 div#path-bar div.path-link
 {
 	float:left;
-	padding:.7em;
+	padding:0.7em;
 	margin:0.4em;
 	font-family:monospace;
 	background-color: LightGray;
