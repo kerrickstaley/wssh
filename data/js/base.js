@@ -69,36 +69,22 @@ function updateFileSystem(fs)
 			// Whenever a '.ui-selectee' is selected, it also becomes draggable.
 			$(ui.selected).draggable({
 
-				//var start_loc;
-				containment: 'document',  // TODO: this does not work because of y-overflow
-				revert: true,
-				revertDuration: 0,
+				containment: 'document',
 				scroll: false,
+				distance: 5,
+				opacity: 0.35,
+
+				helper: function() {
+					var rv = $('<div id="draggable-helper"></div>');
+					$fs_div.find('div.ui-selected').clone().appendTo(rv);
+					return rv[0];
+				},
 
 				start: function(e, ui) {
 					$fs_div.selectable('disable');
 				},
 
-				// Whenever any draggable is dragged, every '.ui-selected' element is also moved.
-				drag: function(e, ui) {
-
-					// TODO: how does this work?
-					$fs_div.find('div.ui-selected').each(function(idx) {
-						$(this).css({
-							top: ui.helper.css("top"),
-							left: ui.helper.css("left")
-						});
-					});
-				},
-
 				stop: function(e, ui) {
-					$fs_div.find('div.ui-selected').each(function(idx) {
-						$(this).css({
-							top: ui.helper.css("top"),
-							left: ui.helper.css("left")
-						});
-					});
-
 					$fs_div.selectable('enable');
 				}
 			});
