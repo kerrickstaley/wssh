@@ -35,22 +35,35 @@ function updateFileSystem(json_fs)
 
 
 // Assumes that 'dir' is an absolute pathname of a directory, and updates '#path-bar' accordingly.
-function updatePathBar(dir)
+function updatePathBar(cwd)
 {
 	// TODO: guard against a trailing '/'
 
-	var path = dir.split('/');
+	var dirs = cwd.split('/');
 	var $path_bar = $('div#path-bar');
 
 	$path_bar.find('div.path-link').remove();
 
-	for (var idx in path)
+	for (var idx in dirs)
 	{
-		$path_bar.append('<div class="path-link">' + path[idx].concat('/') + '</div>');
+		$path_link = $('<div>' + dirs[idx].concat('/') + '</div>');
+		$path_link.addClass('path-link')
+		$path_link.attr('id', idx);
+		$path_bar.append($path_link);
 	}
 
 	$path_bar.find('div.path-link').on('click', function(e) {
-		sendCommand('cd ' + $(this).text(), false);
+
+		// TODO: Make this less convoluted:
+		var idx = $(this).attr('id');
+
+		if (idx == 0) {
+			sendCommand('cd /', false);
+		} else {
+			var re = new RegExp('^.*' + dirs[idx]);
+			var dir = re.exec(cwd);
+			sendCommand('cd ' + dir, false);
+		}
 	});
 };
 
@@ -235,7 +248,7 @@ $(document).ready(function()
 
 
 	// Make action icons droppable and assign event handlers to each.
-	// TODO
+	// TODO:
 
 
 	// Assign an action handler to the document so that meta+Enter can prompt an event:
