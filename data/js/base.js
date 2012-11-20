@@ -17,7 +17,7 @@ function sendCommand(cmd, userWait)
 function getSelectedFiles(isAbsolute)
 {
 	var selected = '';
-	$('div#file-system .ui-selected').each(function(idx) {
+	$('div#file-system div.ui-selected').not('div#draggable-helper div.ui-selected').each(function(idx) {
 		selected += '"' + (isAbsolute ? fs.cwd + '/' : "") + $(this).text() + '" ';
 	});
 
@@ -41,29 +41,28 @@ function updatePathBar(cwd)
 
 	var dirs = cwd.split('/');
 	var $path_bar = $('div#path-bar');
+	var re;
+	var path;
 
 	$path_bar.find('div.path-link').remove();
 
 	for (var idx in dirs)
 	{
+		if (idx == 0) {
+			path = '/';
+		} else {
+			re = new RegExp('^.*' + dirs[idx]);
+			path = re.exec(cwd);
+		}
+
 		$path_link = $('<div>' + dirs[idx].concat('/') + '</div>');
 		$path_link.addClass('path-link')
-		$path_link.attr('id', idx);
+		$path_link.attr('id', path);
 		$path_bar.append($path_link);
 	}
 
 	$path_bar.find('div.path-link').on('click', function(e) {
-
-		// TODO: Make this less convoluted:
-		var idx = $(this).attr('id');
-
-		if (idx == 0) {
-			sendCommand('cd /', false);
-		} else {
-			var re = new RegExp('^.*' + dirs[idx]);
-			var dir = re.exec(cwd);
-			sendCommand('cd ' + dir, false);
-		}
+		sendCommand('cd ' + $(this).attr('id'), false);
 	});
 };
 
@@ -102,7 +101,7 @@ function updateFileIcons(fs)
 			// Whenever a '.ui-selectee' is selected, it also becomes draggable.
 			$(ui.selected).draggable({
 
-				containment: 'document',
+				//containment: 'document',
 				scroll: false,
 				distance: 5,
 				opacity: 0.35,
@@ -247,8 +246,46 @@ $(document).ready(function()
 	});
 
 
-	// Make action icons droppable and assign event handlers to each.
-	// TODO:
+	// Make #shell droppable and handle its drop events
+	$('div#shell').droppable({
+		hoverClass: "drop-glow",
+		drop: function(e, ui) { sendCommand(getSelectedFiles(false), true); }
+	});
+
+
+	// Make #home-icon and .path-link div elements droppable and assign event handlers to each.
+
+	$('div#home-icon').droppable({
+		hoverClass: "drop-glow",
+		drop: function(e, ui) {
+			sendCommand('mv ' + getSelectedFiles(false) + '~', false);
+		}
+	});
+
+	// TODO: Why don't these work!?
+	$('div#path-bar div.path-link').droppable({
+		hoverClass: "drop-glow",
+		drop: function(e, ui) {
+			sendCommand('mv ' + getSelectedFiles(false) + '"' + $(this).attr('id') + '"', false);
+		}
+	});
+
+	// Make folders in file-system droppable.
+	$('div#file-system div.folder').droppable({
+		hoverClass: "drop-glow",
+		drop: function(e, ui) {
+			sendCommand('mv ' + getSelectedFiles(false) + '"' + $(this).text() + '"', false);
+		}
+	});
+
+
+	// Make the trash icon droppable.
+	$('div#trash-icon').droppable({
+		hoverClass: "drop-glow",
+		drop: function() {
+			sendCommand('rm ' + getSelectedFiles(false), true);
+		}
+	});
 
 
 	// Assign an action handler to the document so that meta+Enter can prompt an event:
@@ -258,7 +295,7 @@ $(document).ready(function()
 		if(e.metaKey && e.which == 13)
 		{
 			var $selection = $('div#file-system div.ui-selected');
-			sendCommand(getSelectedFiles(true));
+			sendCommand(getSelectedFiles(false), true);
 		}
 	});
 });
