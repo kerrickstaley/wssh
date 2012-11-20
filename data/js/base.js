@@ -1,17 +1,35 @@
-// Prompts a change directory command to be (asyncronously) sent over the websocket connection.
-// Assumes that 'dir' is an absolute pathname of a directory.
-function requestChangeDirectory(dir)
+var clipboard;  // contains a string of filenames which might be the source of a cut or copy.
+var fs;         // contains the most recent file-system update.
+
+
+// Sends the string 'cmd' to the cli interface. If 'userWait' is false, the command is executed immediately,
+// else the command is appended to the CLI where the user can confirm or modify the command.
+function sendCommand(cmd, userWait)
 {
-	alert('cd ' + dir);
+	alert('Command:\n' + cmd);
+}
+
+
+// Returns a string of the names of the currently selected files.
+// This these pathnames will be relative to the current working directory
+// if 'isAbsolute' is false and absolute if 'isAbsolute' is true.
+function getSelectedFiles(isAbsolute)
+{
+	var selected = '';
+	$('div#file-system .ui-selected').each(function(idx) {
+		selected += '"' + (isAbsolute ? fs.cwd + '/' : "") + $(this).text() + '" ';
+	});
+
+	return selected;
 }
 
 
 // Interprets a JSON-encoded string as an object describing the current working directory and its contents.
-function handleChangeDirectory(fs)
+function updateFileSystem(json_fs)
 {
-	fs = JSON.parse(fs);
+	fs = JSON.parse(json_fs);
 	updatePathBar(fs.cwd);
-	updateFileSystem(fs);
+	updateFileIcons(fs);
 }
 
 
@@ -29,14 +47,13 @@ function updatePathBar(dir)
 	}
 
 	$path_bar.find('div.path-link').on('click', function(e) {
-		// TODO: this doesn't seem very safe
-		requestChangeDirectory($(this).text());
+		sendCommand('cd ' + $(this).text(), false);
 	});
 };
 
 
 // Expects an object which at least has a cwd property.
-function updateFileSystem(fs)
+function updateFileIcons(fs)
 {
 	var $fs_div = $('div#file-system');
 	$fs_div.empty();
@@ -122,10 +139,16 @@ $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
 	// TODO: get JSON-encoded string from file/websocket
-	var fs = { cwd: "/home/user/is/getting/stranger/and/stranger/and/longer/than/long", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"] };
-	//var fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]}
+	/*
+	var fs = {
+		cwd: "/home/user/is/getting/stranger/and/stranger/and/longer/than/long",
+		folders: ["folder1", "folder2"],
+		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"]
+	};
+	*/
+	var fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]}
 	fs = JSON.stringify(fs);
-	handleChangeDirectory(fs);
+	updateFileSystem(fs);
 
 
 	// Initially set zIndex depths in order to use overlay with menu;
@@ -156,20 +179,19 @@ $(document).ready(function()
 
 	// Assign action handlers to each of the persistent icons:
 	$('div#home-icon').on('click', function(e) {
-		// TODO: could be unsafe
-		requestChangeDirectory('~');
+		sendCommand('cd ~', false);
 	});
 
 	$('div#new-file-icon').on('click', function(e) {
-		alert('new file');
+		sendCommand('touch ', true);
 	});
 
 	$('div#new-folder-icon').on('click', function(e) {
-		alert('new folder');
+		sendCommand('mkdir ', true);
 	});
 
 	$('div#trash-icon').on('click', function(e) {
-		alert('trash');
+		sendCommand('rm ' + getSelectedFiles(false), true);
 	});
 
 	$('div#logout-icon').on('click', function(e) {
@@ -177,28 +199,14 @@ $(document).ready(function()
 	});
 
 
-	// Assign action handler to #file-system so that ctrl+Enter can prompt an event:
-	// TODO: Should this be attached to 'document'?
+	// Assign an action handler to the document so that meta+Enter can prompt an event:
 	$(document).on('keydown', function(e) {
 
 		// If enter is pressed when meta key is held, then...
 		if(e.metaKey && e.which == 13)
 		{
 			var $selection = $('div#file-system div.ui-selected');
-			var $files = $selection.filter('div.file');
-			var $folders = $selection.filter('div.folder');
-
-			if ($files.length == 0 && $folders.length == 1)
-			{
-				alert('cd ' + $folders.text());
-			}
-			else if ($files.length != 0 || folders.length != 0)
-			{
-				alert('send selected to terminal');
-			}
+			sendCommand(getSelectedFiles(true));
 		}
 	});
-
-
-	// TODO: Make the files and folders within #file-system draggable and droppable as a group.
 });
