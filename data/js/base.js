@@ -7,7 +7,7 @@ var fs;         // contains the most recent file-system update.
 function sendCommand(cmd, userWait)
 {
 	alert('Command:\n' + cmd);
-}
+};
 
 
 // Returns a string of the names of the currently selected files.
@@ -21,7 +21,7 @@ function getSelectedFiles(isAbsolute)
 	});
 
 	return selected;
-}
+};
 
 
 // Interprets a JSON-encoded string as an object describing the current working directory and its contents.
@@ -30,7 +30,7 @@ function updateFileSystem(json_fs)
 	fs = JSON.parse(json_fs);
 	updatePathBar(fs.cwd);
 	updateFileIcons(fs);
-}
+};
 
 
 // Assumes that 'dir' is an absolute pathname of a directory, and updates '#path-bar' accordingly.
@@ -164,7 +164,7 @@ $(document).ready(function()
 	$('div#file-system div.icon').on('contextmenu', function(e) {
 		popupOpen($('div#icon-menu'), e.pageX, e.pageY);
 		return false;
-	})
+	});
 
 	$('div#file-system:not(div.icon)').on('contextmenu', function(e) {
 		popupOpen($('div#space-menu'), e.pageX, e.pageY);

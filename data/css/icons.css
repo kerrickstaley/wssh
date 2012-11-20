@@ -1,6 +1,9 @@
 div#home-icon,
 div#new-file-icon,
 div#new-folder-icon,
+div#cut-icon,
+div#copy-icon,
+div#paste-icon,
 div#trash-icon,
 div#logout-icon
 {
@@ -13,6 +16,9 @@ div#logout-icon
 div#home-icon        { background-image: url("http://dwtj.me/img/home.png"); }
 div#new-file-icon    { background-image: url("http://dwtj.me/img/new-file.png"); }
 div#new-folder-icon  { background-image: url("http://dwtj.me/img/new-folder.png"); }
+div#cut-icon         { background-image: url("http://dwtj.me/img/cut.png"); }
+div#copy-icon        { background-image: url("http://dwtj.me/img/copy.png"); }
+div#paste-icon       { background-image: url("http://dwtj.me/img/paste.png"); }
 div#trash-icon       { background-image: url("http://dwtj.me/img/trash-empty.png"); }
 div#logout-icon      { background-image: url("http://dwtj.me/img/logout.png"); }
 

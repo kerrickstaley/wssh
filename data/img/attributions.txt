@@ -9,3 +9,6 @@ new-folder.png: actions/folder-new.png
 trash-empty.png: places/user-trash.png
 trash-full.png: status/user-trash-full.png
 logout.png: actions/media-eject.png
+copy.png: actions/edit-copy.png
+cut.png: actions/edit-cut.png
+paste.png: actions/edit-paste.png
