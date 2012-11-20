@@ -135,6 +135,32 @@ function popupClose($menu)
 };
 
 
+function handleCut(e) {
+	isCopy = false;
+	clipboard = getSelectedFiles(true);
+};
+
+
+function handleCopy(e) {
+	isCopy = true;
+	clipboard = getSelectedFiles(true);
+};
+
+
+function handlePaste(e)
+{
+	if (clipboard)
+	{
+		sendCommand((isCopy ? 'cp ' : 'mv ') + clipboard + '.', true);
+		clipboard = '';
+	}
+	else
+	{
+		alert('The clipboard is empty.');
+	}
+};
+
+
 // The primary wssh initialization function.
 $(document).ready(function()
 {
@@ -191,28 +217,11 @@ $(document).ready(function()
 		sendCommand('mkdir ', true);
 	});
 
-	$('div#cut-icon').on('click', function(e) {
-		isCopy = false;
-		clipboard = getSelectedFiles(true);
-	});
+	$('div#cut-icon').on('click', handleCut);
 
-	$('div#copy-icon').on('click', function(e) {
-		isCopy = true;
-		clipboard = getSelectedFiles(true);
-	});
+	$('div#copy-icon').on('click', handleCopy);
 
-	$('div#paste-icon').on('click', function(e)
-	{
-		if (clipboard)
-		{
-			sendCommand((isCopy ? 'cp ' : 'mv ') + clipboard + '.', true);
-			clipboard = '';
-		}
-		else
-		{
-			alert('The clipboard is empty.');
-		}
-	});
+	$('div#paste-icon').on('click', handlePaste);
 
 	$('div#trash-icon').on('click', function(e) {
 		sendCommand('rm ' + getSelectedFiles(false), true);
