@@ -1,5 +1,6 @@
-var clipboard;  // contains a string of filenames which might be the source of a cut or copy.
-var fs;         // contains the most recent file-system update.
+var clipboard;  // Contains a string of filenames which might be the source of a cut or copy.
+var isCopy;     // 'true' signals that the contents of the clipboard should be copied, rather than moved.
+var fs;         // Contains the most recent file-system update object.
 
 
 // Sends the string 'cmd' to the cli interface. If 'userWait' is false, the command is executed immediately,
@@ -188,6 +189,29 @@ $(document).ready(function()
 
 	$('div#new-folder-icon').on('click', function(e) {
 		sendCommand('mkdir ', true);
+	});
+
+	$('div#cut-icon').on('click', function(e) {
+		isCopy = false;
+		clipboard = getSelectedFiles(true);
+	});
+
+	$('div#copy-icon').on('click', function(e) {
+		isCopy = true;
+		clipboard = getSelectedFiles(true);
+	});
+
+	$('div#paste-icon').on('click', function(e)
+	{
+		if (clipboard)
+		{
+			sendCommand((isCopy ? 'cp ' : 'mv ') + clipboard + '.', true);
+			clipboard = '';
+		}
+		else
+		{
+			alert('The clipboard is empty.');
+		}
 	});
 
 	$('div#trash-icon').on('click', function(e) {
