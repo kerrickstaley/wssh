@@ -10,9 +10,9 @@ div#shell
 {
 	width:810px;
 	height:16em;
-	padding:1em;
+	padding:0.2em;
 	border:0.2em solid gray;
-	margin:1em 2em;
+	margin:0.5em 1em;
 }
 
 
@@ -25,14 +25,15 @@ div#header
 div#path-bar
 {
 	float:left;
-	width:20em
+	width:20em;
+	margin-left:0.5em;
 }
 
 div#path-bar div.path-link
 {
 	float:left;
-	padding:0.7em;
-	margin:0.4em;
+	padding:0.3em;
+	margin:1em 0.3em;
 	font-family:monospace;
 	background-color: LightGray;
 }
@@ -54,7 +55,6 @@ div#home-icon
 	float:left;
 	width:48px;
 	height:48px;
-	padding:0.5em;
 }
 
 div#file-system
@@ -93,12 +93,12 @@ div#file-system div.folder
 }
 
 
-/* Why doesn't this work? */
 div.ui-selectable-helper
 {
 	border-color: black;
 	border-style: dashed;
 	border-width: thin;
+	position: absolute;
 }
 
 

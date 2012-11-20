@@ -37,6 +37,8 @@ function updateFileSystem(json_fs)
 // Assumes that 'dir' is an absolute pathname of a directory, and updates '#path-bar' accordingly.
 function updatePathBar(dir)
 {
+	// TODO: guard against a trailing '/'
+
 	var path = dir.split('/');
 	var $path_bar = $('div#path-bar');
 
@@ -230,6 +232,10 @@ $(document).ready(function()
 	$('div#logout-icon').on('click', function(e) {
 		alert('logout');
 	});
+
+
+	// Make action icons droppable and assign event handlers to each.
+	// TODO
 
 
 	// Assign an action handler to the document so that meta+Enter can prompt an event:
