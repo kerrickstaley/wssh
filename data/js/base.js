@@ -98,6 +98,12 @@ function updateFileIcons(fs)
 
 		selected: function(e, ui) {
 
+			var $selected = $(ui.selected);
+
+			// Prevent a selected folder from being dropped onto itself:
+			if ($selected.hasClass('ui-droppable'))
+				$selected.droppable('disable');
+
 			// Whenever a '.ui-selectee' is selected, it also becomes draggable.
 			$(ui.selected).draggable({
 
@@ -122,8 +128,15 @@ function updateFileIcons(fs)
 			});
 		},
 
-		unselected: function(e, ui) {
-			$(ui.unselected).draggable('destroy');
+		unselected: function(e, ui)
+		{
+			var $unselected = $(ui.unselected);
+
+			$unselected.draggable('destroy');
+
+			// Reenable the folder as droppable
+			if ($unselected.hasClass('ui-droppable'))
+				$unselected.droppable('enable');
 		}
 	});
 
@@ -246,23 +259,19 @@ $(document).ready(function()
 	});
 
 
-	// Make #shell droppable and handle its drop events
+	// Make #shell, #home-icon, .path-link, .folder, and #trash-icon droppable
+	// and assign drop-event handlers to each.
+
 	$('div#shell').droppable({
 		hoverClass: "drop-glow",
 		drop: function(e, ui) { sendCommand(getSelectedFiles(false), true); }
 	});
 
-
-	// Make #home-icon and .path-link div elements droppable and assign event handlers to each.
-
 	$('div#home-icon').droppable({
 		hoverClass: "drop-glow",
-		drop: function(e, ui) {
-			sendCommand('mv ' + getSelectedFiles(false) + '~', false);
-		}
+		drop: function(e, ui) { sendCommand('mv ' + getSelectedFiles(false) + '~', false); }
 	});
 
-	// TODO: Why don't these work!?
 	$('div#path-bar div.path-link').droppable({
 		hoverClass: "drop-glow",
 		drop: function(e, ui) {
@@ -270,7 +279,6 @@ $(document).ready(function()
 		}
 	});
 
-	// Make folders in file-system droppable.
 	$('div#file-system div.folder').droppable({
 		hoverClass: "drop-glow",
 		drop: function(e, ui) {
@@ -278,13 +286,9 @@ $(document).ready(function()
 		}
 	});
 
-
-	// Make the trash icon droppable.
 	$('div#trash-icon').droppable({
 		hoverClass: "drop-glow",
-		drop: function() {
-			sendCommand('rm ' + getSelectedFiles(false), true);
-		}
+		drop: function() { sendCommand('rm ' + getSelectedFiles(false), true); }
 	});
 
 
