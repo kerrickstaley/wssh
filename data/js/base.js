@@ -187,6 +187,10 @@ function handlePaste(e)
 	}
 };
 
+function terminalInit()
+{
+	new VT100(undefined, $("#vt100")[0]);
+}
 
 // The primary wssh initialization function.
 $(document).ready(function()
@@ -302,4 +306,6 @@ $(document).ready(function()
 			sendCommand(getSelectedFiles(false), true);
 		}
 	});
+    
+	terminalInit();
 });
