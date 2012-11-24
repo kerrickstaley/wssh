@@ -1,7 +1,12 @@
 var clipboard;  // Contains a string of filenames which might be the source of a cut or copy.
 var isCopy;     // 'true' signals that the contents of the clipboard should be copied, rather than moved.
 var fs;         // Contains the most recent file-system update object.
+var socket;     // websocket used to communicate with backend
 
+// converts an object to JSON and sends it through the websocket
+function send(obj) {
+	socket.send(JSON.stringify(obj));
+}
 
 // Sends the string 'cmd' to the cli interface. If 'userWait' is false, the command is executed immediately,
 // else the command is appended to the CLI where the user can confirm or modify the command.
@@ -24,6 +29,14 @@ function getSelectedFiles(isAbsolute)
 	return selected;
 };
 
+// returns an array of the currently selected files
+function getSelectedFilesArray() {
+	var rv = [];
+	$('div#file-system div.ui-selected').not('div#draggable-helper div.ui-selected').each(function() {
+		rv.push(fs.cwd + '/' + $(this).text());
+	});
+	return rv;
+}
 
 // Interprets a JSON-encoded string as an object describing the current working directory and its contents.
 function updateFileSystem(json_fs)
@@ -164,13 +177,13 @@ function popupClose($menu)
 
 function handleCut(e) {
 	isCopy = false;
-	clipboard = getSelectedFiles(true);
+	clipboard = getSelectedFilesArray();
 };
 
 
 function handleCopy(e) {
 	isCopy = true;
-	clipboard = getSelectedFiles(true);
+	clipboard = getSelectedFilesArray();
 };
 
 
@@ -178,8 +191,8 @@ function handlePaste(e)
 {
 	if (clipboard)
 	{
-		sendCommand((isCopy ? 'cp ' : 'mv ') + clipboard + '.', true);
-		clipboard = '';
+		send(isCopy ? {cp: [clipboard, fs.cwd]} : {mv: [clipboard, fs.cwd]});
+		clipboard = [];
 	}
 	else
 	{
@@ -204,9 +217,12 @@ $(document).ready(function()
 		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"]
 	};
 	*/
-	var fs = { cwd: "/home/user", folders: ["folder1", "folder2"], files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]}
-	fs = JSON.stringify(fs);
-	updateFileSystem(fs);
+	var json_fs = JSON.stringify({
+		cwd: "/home/user",
+		folders: ["folder1", "folder2"],
+		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]
+	});
+	updateFileSystem(json_fs);
 
 
 	// Initially set zIndex depths in order to use overlay with menu;
@@ -241,11 +257,13 @@ $(document).ready(function()
 	});
 
 	$('div#new-file-icon').on('click', function(e) {
-		sendCommand('touch ', true);
+		var filename = prompt("Enter the new file's name:");
+		send({touch: filename});
 	});
 
 	$('div#new-folder-icon').on('click', function(e) {
-		sendCommand('mkdir ', true);
+		var dirname = prompt("Enter the new directory's name:");
+		send({mkdir: dirname});
 	});
 
 	$('div#cut-icon').on('click', handleCut);
@@ -255,7 +273,7 @@ $(document).ready(function()
 	$('div#paste-icon').on('click', handlePaste);
 
 	$('div#trash-icon').on('click', function(e) {
-		sendCommand('rm ' + getSelectedFiles(false), true);
+		send({rm: getSelectedFilesArray()});
 	});
 
 	$('div#logout-icon').on('click', function(e) {
@@ -273,26 +291,30 @@ $(document).ready(function()
 
 	$('div#home-icon').droppable({
 		hoverClass: "drop-glow",
-		drop: function(e, ui) { sendCommand('mv ' + getSelectedFiles(false) + '~', false); }
+		drop: function(e, ui) {
+			send({mv: [getSelectedFilesArray(), '~']});
+		}
 	});
 
 	$('div#path-bar div.path-link').droppable({
 		hoverClass: "drop-glow",
 		drop: function(e, ui) {
-			sendCommand('mv ' + getSelectedFiles(false) + '"' + $(this).attr('id') + '"', false);
+			send({mv: [getSelectedFilesArray(), $(this).attr('id')]});
 		}
 	});
 
 	$('div#file-system div.folder').droppable({
 		hoverClass: "drop-glow",
 		drop: function(e, ui) {
-			sendCommand('mv ' + getSelectedFiles(false) + '"' + $(this).text() + '"', false);
+			send({mv: [getSelectedFilesArray(), fs.cwd + '/' + $(this).text()]});
 		}
 	});
 
 	$('div#trash-icon').droppable({
 		hoverClass: "drop-glow",
-		drop: function() { sendCommand('rm ' + getSelectedFiles(false), true); }
+		drop: function() {
+			send({rm: getSelectedFilesArray()});
+		}
 	});
 
 
@@ -307,5 +329,6 @@ $(document).ready(function()
 		}
 	});
     
+	socket = new WebSocket('ws://localhost:8001');
 	terminalInit();
 });
