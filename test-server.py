@@ -14,8 +14,9 @@ class HTTPThread(threading.Thread):
     daemon = True
     def run(self):
         os.chdir('data')
-        server = SocketServer.TCPServer(('', 8000), SimpleHTTPServer.SimpleHTTPRequestHandler)
-        server.allow_reuse_address = True
+        class MyTCPServer(SocketServer.TCPServer):
+            allow_reuse_address = True
+        server = MyTCPServer(('', 8000), SimpleHTTPServer.SimpleHTTPRequestHandler)
         server.serve_forever()
 
 class PrintWebSocket(WebSocket):
