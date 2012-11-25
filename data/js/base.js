@@ -2,6 +2,8 @@ var clipboard;  // Contains a string of filenames which might be the source of a
 var isCopy;     // 'true' signals that the contents of the clipboard should be copied, rather than moved.
 var fs;         // Contains the most recent file-system update object.
 var socket;     // websocket used to communicate with backend
+var file;		// used to send the file that was just clicked to the console
+
 
 // converts an object to JSON and sends it through the websocket
 function send(obj) {
@@ -22,7 +24,7 @@ function sendCommand(cmd, userWait)
 function getSelectedFiles(isAbsolute)
 {
 	var selected = '';
-	$('div#file-system div.ui-selected').not('div#draggable-helper div.ui-selected').each(function(idx) {
+	$('div#file-system .overview div.ui-selected').not('div#draggable-helper div.ui-selected').each(function(idx) {
 		selected += '"' + (isAbsolute ? fs.cwd + '/' : "") + $(this).text() + '" ';
 	});
 
@@ -53,7 +55,7 @@ function updatePathBar(cwd)
 	// TODO: guard against a trailing '/'
 
 	var dirs = cwd.split('/');
-	var $path_bar = $('div#path-bar');
+	var $path_bar = $('div#path-bar .overview');
 	var re;
 	var path;
 
@@ -83,13 +85,17 @@ function updatePathBar(cwd)
 // Expects an object which at least has a cwd property.
 function updateFileIcons(fs)
 {
-	var $fs_div = $('div#file-system');
+	var $fs_div = $('div#file-system .overview');
 	$fs_div.empty();
 
 	// For each file and folder in 'fs' add an additional icon to '#file-system'.
 	for (var idx in fs.folders)
 	{
 		$fs_div.append('<div class="folder"><div class="icon"></div>' + fs.folders[idx] + '</div>')
+		/* TODO $fs.folders[idx].on('click', function() {
+			menuController($(this).text());
+			popupClose($('div.popup-menu'));
+	});*/
 	}
 
 	for (var idx in fs.files)
@@ -200,14 +206,51 @@ function handlePaste(e)
 	}
 };
 
+
 function terminalInit()
 {
 	new WsshTerminal(undefined, $("#vt100")[0]);
 }
 
+function menuController(text)
+{
+	switch(text)
+	{
+		case "Open":
+			sendCommand("vim " + file + " " + getSelectedFiles(false), true);
+			break;
+		case "Cut":
+			handleCut();
+			break;
+		case "Copy":
+			handleCopy();
+			break;
+		case "Paste":
+			handlePaste();
+			break;
+		case "Delete":
+			sendCommand("rm " + file + " " +getSelectedFiles(false), true);
+			break;
+		case "Create Shortcut":
+			//TODO
+			break;
+		case "Rename":
+			//TODO
+			break;
+		case "New Folder":
+			//TODO
+			break;
+		default:
+			break;	
+	}
+
+}
+
+
 // The primary wssh initialization function.
 $(document).ready(function()
 {
+
 	// fill div#file-system and div#path-bar with some initial data:
 	// TODO: get JSON-encoded string from file/websocket
 	/*
@@ -217,12 +260,14 @@ $(document).ready(function()
 		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"]
 	};
 	*/
+
 	var json_fs = JSON.stringify({
 		cwd: "/home/user",
 		folders: ["folder1", "folder2"],
 		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]
 	});
 	updateFileSystem(json_fs);
+
 
 
 	// Initially set zIndex depths in order to use overlay with menu;
@@ -235,18 +280,22 @@ $(document).ready(function()
 
 
 	// Assign popup menu action handlers to both .icons and the background of #file-system:
-	$('div#file-system div.icon').on('contextmenu', function(e) {
+	$('div#file-system div.file, div#file-system div.folder').on('contextmenu', function(e) {
+
+		//console.log($(this).text());
+		file = $(this).text();
 		popupOpen($('div#icon-menu'), e.pageX, e.pageY);
 		return false;
 	});
 
-	$('div#file-system:not(div.icon)').on('contextmenu', function(e) {
+	$('div#file-system').on('contextmenu', function(e) {
+		file = $(this).text();
 		popupOpen($('div#space-menu'), e.pageX, e.pageY);
 		return false;
 	});
 	
 	$(document).on('click', 'div.menu-item', function() {
-			alert($(this).text());
+			menuController($(this).text());
 			popupClose($('div.popup-menu'));
 	});
 
@@ -324,11 +373,17 @@ $(document).ready(function()
 		// If enter is pressed when meta key is held, then...
 		if(e.metaKey && e.which == 13)
 		{
-			var $selection = $('div#file-system div.ui-selected');
+			var $selection = $('div#files div.ui-selected');
 			sendCommand(getSelectedFiles(false), true);
 		}
 	});
+
     
 	socket = new WebSocket('ws://localhost:8001');
 	terminalInit();
+
+	
+		$('#file-system').tinyscrollbar();
+		$('#path-bar').tinyscrollbar({ axis: 'x'});
+
 });
