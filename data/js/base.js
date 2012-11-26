@@ -253,13 +253,13 @@ $(document).ready(function()
 
 	// fill div#file-system and div#path-bar with some initial data:
 	// TODO: get JSON-encoded string from file/websocket
-	/*
-	var fs = {
+	
+	/*var json_fs = {
 		cwd: "/home/user/is/getting/stranger/and/stranger/and/longer/than/long",
 		folders: ["folder1", "folder2"],
 		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"]
-	};
-	*/
+	};*/
+	
 
 	var json_fs = JSON.stringify({
 		cwd: "/home/user",
@@ -269,7 +269,7 @@ $(document).ready(function()
 	updateFileSystem(json_fs);
 
 
-
+ 
 	// Initially set zIndex depths in order to use overlay with menu;
 	// also, show and hide relavant items.
 	$('div#overlay').css('zIndex', 0).hide();
@@ -379,8 +379,8 @@ $(document).ready(function()
 	});
 
     
-	socket = new WebSocket('ws://localhost:8001');
-	terminalInit();
+	//socket = new WebSocket('ws://localhost:8001');
+	//terminalInit();
 
 	
 		$('#file-system').tinyscrollbar();
