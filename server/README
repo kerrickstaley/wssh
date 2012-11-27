@@ -1,2 +1,17 @@
 server code will go here,
 
+i have put the jar in here that contains the "oneshot.java" class
+this class can create a connection to a ssh server and connect two streams
+that you pass to it to the input and output for the server.
+
+the useful function is
+
+public Void StartShell(String host,String passwd, InputStream in, PrintStream out)
+
+
+//this method may return an object of type channel but it is not used.
+//this method may throw exceptions.
+IMPORTANT NOTE host is a string formated as so "james@dwtj.me" or "<username>@<host>"
+
+for all of my testing i used System.in and System.out for the last 2 inputs
+
