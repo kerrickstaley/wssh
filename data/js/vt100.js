@@ -872,7 +872,7 @@ VT100.prototype.initializeElements = function(container) {
                        '<div id="scrollable">' +
                          '<table id="kbd_button">' +
                            '<tr><td width="100%">&nbsp;</td>' +
-                           '<td><img id="kbd_img" src="keyboard.png" /></td>' +
+                           '<td><img id="kbd_img" src="img/vt100-keyboard.png" /></td>' +
                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>' +
                          '</table>' +
                          '<pre id="lineheight">&nbsp;</pre>' +
@@ -892,7 +892,7 @@ VT100.prototype.initializeElements = function(container) {
                          (typeof suppressAllAudio != 'undefined' &&
                           suppressAllAudio ? "" :
                          embed + '<bgsound id="beep_bgsound" loop=1 />') +
-                          '<iframe id="layout" src="keyboard-layout.html" />' +
+                          '<iframe id="layout" src="vt100-keyboard-layout.html" />' +
                         '</div>';
   }
 

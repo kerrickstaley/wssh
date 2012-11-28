@@ -28,15 +28,17 @@ div#header
 div#path-bar
 {
 	float:left;
-	width:20em;
+	width:25em;
+	height: 3em;
 	margin-left:0.5em;
 }
 
 div#path-bar div.path-link
 {
 	float:left;
-	margin-top:0.5em; margin-bottom:0.5em; margin-right:0.1em; margin-left:0.1em;
-	padding-top:0.6em; padding-bottom:0.6em; padding-right:0.4em; padding-left:0.4em;
+	height:  1em;
+	margin-top:0.3em; margin-bottom:0.3em; margin-right:0.1em; margin-left:0.1em;
+	padding-top:0.3em; padding-bottom:0.3em; padding-right:0.4em; padding-left:0.4em;
 	font-size:1.1em;
 	font-family:monospace;
 	border-width:0.1em;
@@ -65,8 +67,8 @@ div#home-icon
 
 div#file-system
 {
-	overflow-y: scroll;
-	overflow-x: hidden;
+	/*overflow-y: scroll;
+	overflow-x: hidden;*/
 }
 
 div#file-system div.file,
@@ -178,3 +180,21 @@ div#overlay {
 	margin-top:-28px;
 	background:#fff;
 }
+
+/*#file-system { 	width:810px; clear: both; margin: 20px 0 10px; }*/
+#file-system  .viewport { 	width:800px; height:16em; position: relative; left: 0; overflow: hidden}
+#file-system  .overview { list-style: none; position: absolute; left: 0; top: 0; }
+#file-system  .scrollbar{ background: transparent url("http://dwtj.me/img/bg-scrollbar-track-y.png") no-repeat 0 0; position: relative; background-position: 0 0; float: right; width: 15px;}
+#file-system  .track { background: transparent url("http://dwtj.me/img/bg-scrollbar-trackend-y.png") no-repeat 0 100%; height: 100%; width:15px; position: relative; }
+#file-system  .thumb { background: transparent url("http://dwtj.me/img/bg-scrollbar-thumb-y.png") no-repeat 50% 100%; height: 20px; width: 25px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -5px; }
+#file-system  .thumb .end { background: transparent url("http://dwtj.me/img/bg-scrollbar-thumb-y.png") no-repeat 50% 0; overflow: hidden; height: 5px; width: 25px; }
+#file-system .disable { display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+
+#path-bar  .viewport { width:25em; height:3em; position: relative; overflow: hidden}
+#path-bar  .overview { list-style: none; width:25em; position: absolute; left: 0; top: 0; }
+#path-bar  .scrollbar{ background: transparent url("http://dwtj.me/img/bg-scrollbar-track-x.png") no-repeat 0 0; position: relative; background-position: 0 0; float: right;}
+#path-bar  .track { background: transparent url("http://dwtj.me/img/bg-scrollbar-trackend-x.png")  no-repeat 100% 0; width: 100%; height:15px; position: relative; }
+#path-bar  .thumb { background: transparent url("http://dwtj.me/img/bg-scrollbar-thumb-x.png")  no-repeat 100% 50%; height: 25px; cursor: pointer; overflow: hidden; position: absolute; left: 0; top: -5px;}
+#path-bar  .thumb .end { background: transparent url("http://dwtj.me/img/bg-scrollbar-thumb-x.png") no-repeat 0 50%; overflow: hidden; height: 25px; width: 5px;}
+#path-bar .disable { display: none; }
