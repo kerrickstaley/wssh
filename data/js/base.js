@@ -379,8 +379,8 @@ $(document).ready(function()
 	});
 
     
-	//socket = new WebSocket('ws://localhost:8001');
-	//terminalInit();
+	socket = new WebSocket('ws://localhost:8001');
+	terminalInit();
 
 	
 		$('#file-system').tinyscrollbar();
