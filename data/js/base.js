@@ -212,6 +212,50 @@ function terminalInit()
 	new WsshTerminal(undefined, $("#vt100")[0]);
 }
 
+function doConnect() {
+	var $shadeDiv = $('<div>').css({
+		position: 'absolute',
+		left: 0,
+		top: 0,
+		width: '100%',
+		height: '100%',
+		'background-color': '#000000',
+		opacity: 0.5
+	}).appendTo('body');
+	
+	var $authButton = $('<button type="button">Connect</button>').css({
+		position: 'absolute',
+		left: '50%',
+		top: '50%',
+		'font-size': 'xx-large'
+	}).appendTo($shadeDiv).click(function(e) {		
+		var $dialogDiv = $(
+			  '<div title="Connect"><form><fieldset>'
+			+   '<label for="username">Username</label>'
+			+   '<input type="text" name="username" id="username" class="ui-widget-content" />'
+			+   '<label for="password">Password</label>'
+			+   '<input type="password" name="password" id="password" class="ui-widget-content />'
+			+   '<label for="host">Host</label>'
+			+   '<input type="text" name="host" id="host" class="ui-widget-content" />'
+			+   '<label for="port">Port</label>'
+			+   '<input type="text" name="port" id="port" class="ui-widget-content" />'
+			+ '</fieldset></form></div>').dialog({
+				buttons: {
+					'Connect': function() {
+						send({
+							username: $('#username').val(),
+							password: $('#password').val(),
+							host: $('#host').val(),
+							port: $('#port').val()
+						});
+						$shadeDiv.remove();
+						$(this).dialog('close');
+					}
+				}
+			});
+	});
+}
+
 function menuController(text)
 {
 	switch(text)
@@ -385,5 +429,6 @@ $(document).ready(function()
 	
 		$('#file-system').tinyscrollbar();
 		$('#path-bar').tinyscrollbar({ axis: 'x'});
-
+	
+	doConnect();
 });
