@@ -244,10 +244,12 @@ function doConnect() {
 			buttons: {
 				'Connect': function() {
 					send({
-						username: $('#username').val(),
-						password: $('#password').val(),
-						host: $('#host').val(),
-						port: $('#port').val()
+						connect: [
+							$('#username').val(),
+							$('#password').val(),
+							$('#host').val(),
+							parseInt($('#port').val())
+						]
 					});
 					$shadeDiv.remove();
 					$(this).dialog('close');
