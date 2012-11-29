@@ -239,20 +239,21 @@ function doConnect() {
 			+   '<input type="text" name="host" id="host" class="ui-widget-content" />'
 			+   '<label for="port">Port</label>'
 			+   '<input type="text" name="port" id="port" class="ui-widget-content" />'
-			+ '</fieldset></form></div>').dialog({
-				buttons: {
-					'Connect': function() {
-						send({
-							username: $('#username').val(),
-							password: $('#password').val(),
-							host: $('#host').val(),
-							port: $('#port').val()
-						});
-						$shadeDiv.remove();
-						$(this).dialog('close');
-					}
+			+ '</fieldset></form></div>'
+		).dialog({
+			buttons: {
+				'Connect': function() {
+					send({
+						username: $('#username').val(),
+						password: $('#password').val(),
+						host: $('#host').val(),
+						port: $('#port').val()
+					});
+					$shadeDiv.remove();
+					$(this).dialog('close');
 				}
-			});
+			}
+		});
 	});
 }
 
