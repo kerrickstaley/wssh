@@ -134,9 +134,9 @@ function updateFileIcons(fs)
 				opacity: 0.35,
 
 				helper: function() {
-					var rv = $('<div id="draggable-helper"></div>');
-					$('#file-system').find('div.ui-selected').clone().appendTo(rv);
-					return rv[0];
+					var $icon = $('<div class="file"><div class="icon"></div></div>')
+					var $rv = $('<div id="draggable-helper"></div>').appendTo('#file-system').append($icon);
+					return $rv[0];
 				},
 
 				start: function(e, ui) {
