@@ -1,17 +1,50 @@
 server code will go here,
 
+IMPORTANT NOTE
+in my testing file i have included
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+
+these may not all be actually required.
+
+
+SUMMARY:
+
 i have put the jar in here that contains the "oneshot.java" class
 this class can create a connection to a ssh server and connect two streams
 that you pass to it to the input and output for the server.
 
-the useful function is
+it also contains a function "openSFTP" which opens an sftp connection and
+returns a object that can perform functions via the sftp connection.
+
+
+=================================================================================
+
+the useful functions are
+
+=================================================================================
 
 public Void StartShell(String host,String passwd, InputStream in, PrintStream out)
 
-
-//this method may return an object of type channel but it is not used.
-//this method may throw exceptions.
 IMPORTANT NOTE host is a string formated as so "james@dwtj.me" or "<username>@<host>"
 
 for all of my testing i used System.in and System.out for the last 2 inputs
 
+
+=================================================================================
+
+
+public ChannelSftp openSFTP(String host, int PORT, String passwd)
+
+IMPORTANT NOTE 
+host is a string formated as so "james@dwtj.me" or "<username>@<host>"
+
+this function returns a ChannelSftp
+
+which is documented here:
+http://show.docjava.com/book/cgij/jdoc/net/ssh/jsch/ChannelSftp.html
+
+
+=================================================================================
