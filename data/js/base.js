@@ -131,7 +131,7 @@ function updateFileIcons(fs)
 				//containment: 'document',
 				scroll: false,
 				distance: 5,
-				opacity: 0.35,
+				opacity: 0.75,
 
 				helper: function() {
 					var $icon = $('<div class="file"><div class="icon"></div></div>')
@@ -197,7 +197,7 @@ function handleCopy(e) {
 
 function handlePaste(e)
 {
-	if (clipboard)
+	if (clipboard && clipboard[0])
 	{
 		send(isCopy ? {cp: [clipboard, fs.cwd]} : {mv: [clipboard, fs.cwd]});
 		clipboard = [];
