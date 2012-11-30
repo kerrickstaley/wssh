@@ -88,7 +88,7 @@ function updateFileIcons(fs)
 	var $fs_div = $('div#file-system .overview');
 	$fs_div.empty();
 
-	// For each file and folder in 'fs' add an additional icon to '#file-system'.
+	// For each file and folder in 'fs' add an additional icon to '#file-system .overview'.
 	for (var idx in fs.folders)
 	{
 		$fs_div.append('<div class="folder"><div class="icon"></div>' + fs.folders[idx] + '</div>')
@@ -110,8 +110,10 @@ function updateFileIcons(fs)
 	});
 
 
+	var $selectable_div = $('#file-system .viewport');
+
 	// Make each of the newly created files and folders selectable.
-	$fs_div.selectable({
+	$selectable_div.selectable({
 
 		filter: 'div.file, div.folder',
 
@@ -133,16 +135,16 @@ function updateFileIcons(fs)
 
 				helper: function() {
 					var rv = $('<div id="draggable-helper"></div>');
-					$fs_div.find('div.ui-selected').clone().appendTo(rv);
+					$('#file-system').find('div.ui-selected').clone().appendTo(rv);
 					return rv[0];
 				},
 
 				start: function(e, ui) {
-					$fs_div.selectable('disable');
+					$selectable_div.selectable('disable');
 				},
 
 				stop: function(e, ui) {
-					$fs_div.selectable('enable');
+					$selectable_div.selectable('enable');
 				}
 			});
 		},
