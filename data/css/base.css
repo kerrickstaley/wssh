@@ -74,6 +74,7 @@ div#file-system
 div#file-system div.file,
 div#file-system div.folder
 {
+	opacity: 1.0;
 	float:left;
 	width: 7em;
 	height: 6.5em;

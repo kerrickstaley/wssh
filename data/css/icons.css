@@ -13,6 +13,15 @@ div#logout-icon
 }
 
 
+div#header div#home-icon:hover,
+div#header div.path-link:hover,
+div#header div.action-icon:hover,
+div#file-system div.folder:hover
+{
+	background-color:LightGray;
+}
+
+
 div#home-icon        { background-image: url("http://dwtj.me/img/home.png"); }
 div#new-file-icon    { background-image: url("http://dwtj.me/img/new-file.png"); }
 div#new-folder-icon  { background-image: url("http://dwtj.me/img/new-folder.png"); }

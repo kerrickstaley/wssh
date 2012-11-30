@@ -131,11 +131,28 @@ function updateFileIcons(fs)
 				//containment: 'document',
 				scroll: false,
 				distance: 5,
-				opacity: 0.75,
+				opacity: 0.80,
 
 				helper: function() {
-					var $icon = $('<div class="file"><div class="icon"></div></div>')
-					var $rv = $('<div id="draggable-helper"></div>').appendTo('#file-system').append($icon);
+
+					// It should be guaranteed that there will be at least one selected.
+					var $selected = $('div#file-system div.ui-selected');
+
+					if ($selected.length == 1) {
+						var $rv = $selected.filter(':first').clone();
+					} else {
+
+						var $rv = $('<div id="draggable-helper" ><div class="icon"></div></div>');
+						var $first = $selected.filter(':first')
+						if ($first.hasClass('folder'))
+							$rv.addClass('folder');
+						else
+							$rv.addClass('file');
+
+						$rv.append($selected.length);
+					}
+
+					$rv.appendTo('#file-system');
 					return $rv[0];
 				},
 
