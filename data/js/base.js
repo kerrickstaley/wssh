@@ -280,10 +280,29 @@ function doConnect() {
 
 function menuController(text)
 {
+	var files = "";
+	var inSelectedFiles = false;
+	if(!getSelectedFiles(false))
+	{
+		files = file;
+	}
+	else
+	{
+		getSelectedFilesArray().forEach(function(selectedFile){
+			console.log(selectedFile);
+			if(selectedFile == (fs.cwd + '/' + file))
+				inSelectedFiles = true;
+		});
+		if(inSelectedFiles)
+			files = getSelectedFiles();
+		else
+			files = file;
+	}
+	
 	switch(text)
 	{
 		case "Open":
-			sendCommand("vim " + file + " " + getSelectedFiles(false), true);
+			sendCommand("vim " + files, true);
 			break;
 		case "Cut":
 			handleCut();
@@ -295,7 +314,7 @@ function menuController(text)
 			handlePaste();
 			break;
 		case "Delete":
-			sendCommand("rm " + file + " " +getSelectedFiles(false), true);
+			sendCommand("rm " + files, true);
 			break;
 		case "Create Shortcut":
 			//TODO
