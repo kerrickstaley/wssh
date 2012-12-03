@@ -3,7 +3,7 @@ var isCopy;     // 'true' signals that the contents of the clipboard should be c
 var fs;         // Contains the most recent file-system update object.
 var socket;     // websocket used to communicate with backend
 var file;		// used to send the file that was just clicked to the console
-
+var terminal;   // the WsshTerminal instance
 
 // converts an object to JSON and sends it through the websocket
 function send(obj) {
@@ -228,7 +228,7 @@ function handlePaste(e)
 
 function terminalInit()
 {
-	new WsshTerminal(undefined, $("#vt100")[0]);
+	terminal = new WsshTerminal(undefined, $("#vt100")[0]);
 }
 
 function doConnect() {
@@ -276,6 +276,15 @@ function doConnect() {
 			}
 		});
 	});
+}
+
+function socketOnmessage(e) {
+	var obj = JSON.parse(e.data);
+	if (obj.fs) {
+		updateFileSystem(JSON.stringify(obj.fs));
+	} else if (obj.output) {
+		terminal.vt100(obj.output);
+	}
 }
 
 function menuController(text)
@@ -465,6 +474,7 @@ $(document).ready(function()
 
     
 	socket = new WebSocket('ws://localhost:8001');
+	socket.onmessage = socketOnmessage;
 	terminalInit();
 
 	

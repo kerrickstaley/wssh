@@ -9,6 +9,7 @@ import os
 from gevent import monkey; monkey.patch_all()
 from ws4py.server.geventserver import WebSocketServer
 from ws4py.websocket import WebSocket
+import random
 
 class HTTPThread(threading.Thread):
     daemon = True
@@ -21,6 +22,8 @@ class HTTPThread(threading.Thread):
 
 class PrintWebSocket(WebSocket):
     def received_message(self, message):
+        if random.random() < 0.2:
+            self.send(r'{"output": "\r\nHere is some output!\r\n"}');
         print message
 
 class WebsocketThread(threading.Thread):
