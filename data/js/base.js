@@ -239,7 +239,8 @@ function doConnect() {
 		width: '100%',
 		height: '100%',
 		'background-color': '#000000',
-		opacity: 0.5
+		opacity: 0.5,
+		'z-index': 20
 	}).appendTo('body');
 	
 	var $authButton = $('<button type="button">Connect</button>').css({
