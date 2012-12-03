@@ -3,13 +3,28 @@ html
 	background-color:#b0c4de;
 }
 
+body
+{
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+}
+
+#gui
+{
+	-webkit-flex: 1;
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+}
+
+#vt100
+{
+	-webkit-flex: 1;
+}
 
 div#header,
 div#file-system,
 div#shell
 {
-	width:810px;
-	height:16em;
 	padding:0.2em;
 	border:0.2em solid gray;
 	margin:1em;
@@ -69,6 +84,7 @@ div#file-system
 {
 	/*overflow-y: scroll;
 	overflow-x: hidden;*/
+	-webkit-flex: 1;
 }
 
 div#file-system div.file,
