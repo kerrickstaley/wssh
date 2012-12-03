@@ -324,16 +324,28 @@ function menuController(text)
 			handlePaste();
 			break;
 		case "Delete":
-			sendCommand("rm " + files, true);
+			send({rm: files});
 			break;
 		case "Create Shortcut":
 			//TODO
 			break;
 		case "Rename":
-			//TODO
+			if(inSelectedFiles)
+			{
+				getSelectedFilesArray().forEach(function(selectedFile){
+					var filename = prompt("Enter a new name for "+selectedFile+":");
+					send({mv: [selectedFile, filename]});
+				});
+			}
+			else
+			{
+				var filename = prompt("Enter a new name for "+file+":");
+				send({mv: [file, filename]});
+			}
 			break;
 		case "New Folder":
-			//TODO
+				var dirname = prompt("Enter the new directory's name:");
+				send({mkdir: dirname});
 			break;
 		default:
 			break;	
