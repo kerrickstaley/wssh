@@ -1,6 +1,7 @@
 html
 {
 	background-color:#b0c4de;
+	min-width:850px;
 }
 
 body
@@ -38,6 +39,7 @@ div#header
 {
 	height: auto;
 	min-height: 3em;
+	margin-bottom: 2px;
 }
 
 div#path-bar
@@ -85,6 +87,7 @@ div#file-system
 	/*overflow-y: scroll;
 	overflow-x: hidden;*/
 	-webkit-flex: 1;
+	margin-top: 2px;
 }
 
 div#file-system div.file,
