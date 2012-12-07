@@ -9,5 +9,10 @@ public class SSHOutputStream extends OutputStream
 	{
 		System.out.println(((char) b));
 	}
+
+	public String read()
+	{
+		return "";
+	}
 }
 

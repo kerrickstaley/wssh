@@ -1,11 +1,13 @@
 package wssh.connection.ssh;
 
 import wssh.connection.OneShot;
+import wssh.io.SSHInputStream;
+import wssh.io.SSHOutputStream;
 
 public class SSHConnection
 {
-	private SSHInputStream toSHH;
-	private SSHPrintStream fromSSH;
+	private SSHInputStream toSSH;
+	private SSHOutputStream fromSSH;
 
 	public SSHConnection(String host, String username, String password)
 	{
@@ -15,12 +17,17 @@ public class SSHConnection
 	public SSHConnection(String host, String username, String password, int port)
 	{
 		this.toSSH = new SSHInputStream();
-		this.fromSSH = new PrintStream(new SSHOutputStream());
+		this.fromSSH = new SSHOutputStream();
+	}
+
+	public void disconnect()
+	{
+
 	}
 
 	synchronized public void write(String input)
 	{
-		this.toSSH.input(input);
+		this.toSSH.write(input);
 	}
 
 	synchronized public String read()

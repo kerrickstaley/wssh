@@ -35,13 +35,14 @@ public class ServerMain extends WebSocketServer
 	{
 		Connection connection = this.connections.get(ws);
 
-		
-		if (
+		String command = message.substring(1, message.indexOf(":"));
+		System.out.println(command);
 	}
 
 	public void onClose(WebSocket ws, int code, String reason, boolean remote)
 	{
-
+		Connection connection = this.connections.get(ws);
+		connection.disconnect();
 	}
 
 	public void onError(WebSocket ws, Exception ex)

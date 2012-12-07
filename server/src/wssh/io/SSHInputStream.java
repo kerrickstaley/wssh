@@ -9,7 +9,7 @@ public class SSHInputStream extends InputStream
 
 	public SSHInputStream()
 	{
-		this.toSend = new ConcurrentLinkQueue<Byte>();
+		this.toSend = new ConcurrentLinkedQueue<Byte>();
 	}
 
 	/** @Override */
@@ -17,7 +17,14 @@ public class SSHInputStream extends InputStream
 	{
 		while (toSend.isEmpty())
 		{
-			this.wait();
+			try
+			{
+				this.wait();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return toSend.poll().intValue();
@@ -25,10 +32,10 @@ public class SSHInputStream extends InputStream
 
 	synchronized public void write(String input)
 	{
-		boolean wasEmpty = this.isEmpty();
-		for(int i = 0; i < input.length(); i++)
+		boolean wasEmpty = toSend.isEmpty();
+		for (int i = 0; i < input.length(); i++)
 		{
-			char strChar = str.charAt(i);
+			char strChar = input.charAt(i);
 			this.toSend.offer(Byte.valueOf((byte) ((strChar&0xFF00)>>8)));
 			this.toSend.offer(Byte.valueOf((byte) (strChar&0x00FF))); 
 		}
