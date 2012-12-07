@@ -371,7 +371,13 @@ $(document).ready(function()
 	var json_fs = JSON.stringify({
 		cwd: "/home/user",
 		folders: ["folder1", "folder2"],
-		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt"]
+		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt",
+		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
+		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
+		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
+		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
+		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
+		]
 	});
 	updateFileSystem(json_fs);
 
