@@ -53,8 +53,8 @@ public class ServerMain extends WebSocketServer
 
 	public static void main(String[] argv)
 	{
-//		ServerMain server = new ServerMain(new InetSocketAddress(8001));
-//		server.start();
+		ServerMain server = new ServerMain(new InetSocketAddress(8001));
+		server.start();
 
 //		SSHConnection ssh = new SSHConnection("cyle@localhost:20", "cjdubuntuserver18", System.in, new PrintStream(new SSHOutputStream()));
 	}
