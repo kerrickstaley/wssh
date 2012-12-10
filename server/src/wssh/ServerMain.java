@@ -38,9 +38,9 @@ public class ServerMain extends WebSocketServer
 	{
 		Connection connection = this.connections.get(ws);
 
-		int firstQuote = message.indexOf("\"");
-		int secondQuote = message.indexOf("\"", firstQuote + 1);
-		String command = message.substring(firstQuote, secondQuote - firstQuote + 1);
+		int firstQuote = message.indexOf("\"") + 1;
+		int secondQuote = message.indexOf("\"", firstQuote);
+		String command = message.substring(firstQuote, secondQuote - firstQuote);
 		System.out.println(command);
 		JSONObject commandObj = new JSONObject(message);
 
