@@ -9,7 +9,6 @@ import wssh.connection.ssh.SSHConnection;
 
 public class Connection
 {
-	private WebSocket ws;
 	private SSHConnection ssh;
 	private SFTPConnection sftp;
 
@@ -20,8 +19,7 @@ public class Connection
 
 	public Connection(WebSocket ws, String host, String username, String password, int port)
 	{
-		this.ws = ws;
-		this.ssh = new SSHConnection(host, username, password, port);
+		this.ssh = new SSHConnection(ws, host, username, password, port);
 		this.sftp = new SFTPConnection(host, username, password, port);
 	}
 
@@ -31,14 +29,14 @@ public class Connection
 		this.sftp.disconnect();
 	}
 
-	public void sendSSHKey(String key)
+	public void commandKeys(String key)
 	{
 		this.ssh.write(key);
 	}
 
-	public String getDirectoryContents(String dir)
+	public String commandLs(String dir)
 	{
-		String token = "{command: \"ls\", return: [\"";
+		String token = "{\"ls\": [{";
 		String[] files;
 
 		try
@@ -53,7 +51,8 @@ public class Connection
 
 		for (String filename : files)
 		{
-			token += filename + "\", \"";
+			String type = filename.substring(0, 1);
+			token += "\"name\": \"" + filename.substring(1) + "\", \"isdir\": " + String.valueOf(type.equals("d")) + "}, {";
 		}
 		token = token.substring(0, token.length() - 3) + "]}";
 

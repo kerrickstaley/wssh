@@ -46,7 +46,12 @@ public class SFTPConnection
 		int i = 0;
 		for (LsEntry entry : entries)
 		{
-			ret[i++] = entry.getFilename();
+			String type = "f";
+			if (entry.getAttrs().isDir())
+			{
+				type = "d";
+			}
+			ret[i++] = type + entry.getFilename();
 		}
 
 		return ret;

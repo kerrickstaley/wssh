@@ -7,7 +7,10 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import JavaJSON.JSONArray;
+import JavaJSON.JSONInteger;
 import JavaJSON.JSONObject;
+import JavaJSON.JSONString;
 
 import wssh.connection.Connection;
 
@@ -35,9 +38,32 @@ public class ServerMain extends WebSocketServer
 	{
 		Connection connection = this.connections.get(ws);
 
-		String command = message.substring(1, message.indexOf(":"));
+		int firstQuote = message.indexOf("\"");
+		int secondQuote = message.indexOf("\"", firstQuote + 1);
+		String command = message.substring(firstQuote, secondQuote - firstQuote + 1);
 		System.out.println(command);
 		JSONObject commandObj = new JSONObject(message);
+
+		if (command.equals("connect"))
+		{
+			JSONArray connParams = (JSONArray) (commandObj.getItem("connect")).getValue();
+			Connection conn = new Connection(
+					ws,
+					((JSONString) connParams.getItem(2)).getValue(),
+					((JSONString) connParams.getItem(0)).getValue(),
+					((JSONString) connParams.getItem(1)).getValue(),
+					((JSONInteger) connParams.getItem(3)).getValue().intValue()
+				);
+
+			this.connections.put(ws, conn);
+		}
+		else if (connection != null)
+		{
+			if (command.equals("keys"))
+			{
+				connection.commandKeys(((JSONString) commandObj.getItem("keys").getValue()).getValue());
+			}
+		}
 	}
 
 	public void onClose(WebSocket ws, int code, String reason, boolean remote)
