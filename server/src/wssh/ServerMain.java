@@ -37,6 +37,7 @@ public class ServerMain extends WebSocketServer
 
 		String command = message.substring(1, message.indexOf(":"));
 		System.out.println(command);
+		JSONObject commandObj = new JSONObject(message);
 	}
 
 	public void onClose(WebSocket ws, int code, String reason, boolean remote)
