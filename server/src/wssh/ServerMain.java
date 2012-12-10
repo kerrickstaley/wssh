@@ -40,7 +40,7 @@ public class ServerMain extends WebSocketServer
 
 		int firstQuote = message.indexOf("\"") + 1;
 		int secondQuote = message.indexOf("\"", firstQuote);
-		String command = message.substring(firstQuote, secondQuote - firstQuote);
+		String command = message.substring(firstQuote, secondQuote);
 		System.out.println(command);
 		JSONObject commandObj = new JSONObject(message);
 
