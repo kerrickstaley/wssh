@@ -41,9 +41,9 @@ function getSelectedFilesArray() {
 }
 
 // Interprets a JSON-encoded string as an object describing the current working directory and its contents.
-function updateFileSystem(json_fs)
+function updateFileSystem(new_fs)
 {
-	fs = JSON.parse(json_fs);
+	fs = new_fs;
 	updatePathBar(fs.cwd);
 	updateFileIcons(fs);
 };
@@ -89,20 +89,12 @@ function updateFileIcons(fs)
 	$fs_div.empty();
 
 	// For each file and folder in 'fs' add an additional icon to '#file-system .overview'.
-	for (var idx in fs.folders)
-	{
-		$fs_div.append('<div class="folder"><div class="icon"></div>' + fs.folders[idx] + '</div>')
-		/* TODO $fs.folders[idx].on('click', function() {
-			menuController($(this).text());
-			popupClose($('div.popup-menu'));
-	});*/
-	}
-
-	for (var idx in fs.files)
-	{
-		$fs_div.append('<div class="file"><div class="icon"></div><div class="text">' + fs.files[idx] + '</div></div>')
-	}
-
+	fs.ls.forEach(function(file) {
+		$('<div>').addClass(file.isdir ? 'folder' : 'file')
+		          .append('<div class="icon">')
+		          .append($('<div>').addClass('text').text(file.name))
+		          .appendTo($fs_div);
+	});
 
 	// Make each folder create an event when it is double-clicked.
 	$fs_div.find('div.folder').dblclick(function(e) {
@@ -282,7 +274,7 @@ function doConnect() {
 function socketOnmessage(e) {
 	var obj = JSON.parse(e.data);
 	if (obj.fs) {
-		updateFileSystem(JSON.stringify(obj.fs));
+		updateFileSystem(obj.fs);
 	} else if (obj.output) {
 		terminal.vt100(obj.output);
 	}
@@ -357,29 +349,34 @@ function menuController(text)
 // The primary wssh initialization function.
 $(document).ready(function()
 {
-
 	// fill div#file-system and div#path-bar with some initial data:
-	// TODO: get JSON-encoded string from file/websocket
+	var new_fs = {
+		cwd: '/home/user',
+		ls: [
+				{
+					name: 'folder1',
+					isdir: true
+				},
+				{
+					name: 'folder2',
+					isdir: true
+				},
+				{
+					name: 'file1.txt',
+					isdir: false
+				},
+				{
+					name: 'This file has a long name.txt',
+					isdir: false
+				},
+				{
+					name: 'this_is_also_quite_long.txt',
+					isdir: false
+				}
+			]
+	};
 	
-	/*var json_fs = {
-		cwd: "/home/user/is/getting/stranger/and/stranger/and/longer/than/long",
-		folders: ["folder1", "folder2"],
-		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt", "file2.txt"]
-	};*/
-	
-
-	var json_fs = JSON.stringify({
-		cwd: "/home/user",
-		folders: ["folder1", "folder2"],
-		files: ["This file has a long name.txt", "file2.txt", "this_is_also_quite_long.txt",
-		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
-		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
-		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
-		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
-		"file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt", "file.txt",
-		]
-	});
-	updateFileSystem(json_fs);
+	updateFileSystem(new_fs);
 
 
  
