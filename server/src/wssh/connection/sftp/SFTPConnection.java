@@ -4,9 +4,8 @@ import java.util.Vector;
 
 import com.jcraft.jsch.ChannelSftp; 
 import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-
-import wssh.connection.OneShot;
 
 public class SFTPConnection
 {
@@ -15,6 +14,15 @@ public class SFTPConnection
 	public SFTPConnection(ChannelSftp sftpChannel)
 	{
 		this.sftpChannel = sftpChannel;
+
+		try
+		{
+			sftpChannel.connect();
+		}
+		catch (JSchException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void disconnect()
@@ -22,9 +30,10 @@ public class SFTPConnection
 		this.sftpChannel.disconnect();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String[] ls(String dir) throws SftpException
 	{
-		Vector<LsEntry> entries = this.sftp.ls(dir);
+		Vector<LsEntry> entries = this.sftpChannel.ls(dir);
 		String[] ret = new String[entries.size()];
 
 		int i = 0;

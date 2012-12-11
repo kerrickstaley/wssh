@@ -82,39 +82,8 @@ public class ServerMain extends WebSocketServer
 
 	public static void main(String[] argv)
 	{
-//		ServerMain server = new ServerMain(new InetSocketAddress(8001));
-//		server.start();
-
-//		SSHConnection ssh = new SSHConnection("cyle@localhost:20", "cjdubuntuserver18", System.in, new PrintStream(new SSHOutputStream()));
-
-		String username = "cyle";
-		// String host = "localhost";
-		String host = "initialreality.dyndns.org";
-		String password = "cjdubuntuserver18";
-		int port = 22;
-		Session sshServerSession;
-
-		try
-		{
-			JSch jsch = new JSch();
-			jsch.setConfig("StrictHostKeyChecking", "no");
-
-			// Spawn a session to the SSH server
-			sshServerSession = jsch.getSession(username, host, port);
-			sshServerSession.setPassword(password);
-			sshServerSession.connect();
-
-			// Open an SSH channel for SSH communication
-			ChannelShell shellChannel = (ChannelShell) sshServerSession.openChannel("shell");
-
-			shellChannel.setInputStream(System.in);
-			shellChannel.setOutputStream(System.out);
-			shellChannel.connect();
-		}
-		catch (JSchException e)
-		{
-			e.printStackTrace();
-		}
+		ServerMain server = new ServerMain(new InetSocketAddress(8001));
+		server.start();
 	}
 }
 

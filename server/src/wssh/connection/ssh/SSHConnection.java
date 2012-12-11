@@ -2,9 +2,11 @@ package wssh.connection.ssh;
 
 import java.io.PrintStream;
 
+import com.jcraft.jsch.ChannelShell;
+import com.jcraft.jsch.JSchException;
+
 import org.java_websocket.WebSocket;
 
-import wssh.connection.OneShot;
 import wssh.io.SSHInputStream;
 import wssh.io.SSHOutputStream;
 
@@ -22,7 +24,15 @@ public class SSHConnection
 
 		shellChannel.setInputStream(this.toSSH);
 		shellChannel.setOutputStream(new PrintStream(this.fromSSH));
-		shellChannel.connect();
+
+		try
+		{
+			shellChannel.connect();
+		}
+		catch (JSchException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void disconnect()
