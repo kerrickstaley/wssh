@@ -15,14 +15,14 @@ public class SSHOutputStream extends OutputStream
 	{
 		this.ws = ws;
 
-		this.escapeExpression = Pattern.compile("(\"|\\\\u)");
+		this.escapeExpression = Pattern.compile("(\"|\\\\)");
 	}
 
 	/** @Override */
 	public void write(int b)
 	{
-		//String character = this.escapeExpression.matcher("" + ((char) b)).replaceAll("\\\\$1");
-		String character = "" + ((char) b);
+		String character = this.escapeExpression.matcher("" + ((char) b)).replaceAll("\\\\$1");
+		//String character = "" + ((char) b);
 		System.out.println(character);
 		String token = "{\"output\": \"" + character + "\"}";
 		System.out.println(token);
