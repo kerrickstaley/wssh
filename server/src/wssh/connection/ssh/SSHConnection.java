@@ -1,5 +1,7 @@
 package wssh.connection.ssh;
 
+import java.io.PrintStream;
+
 import org.java_websocket.WebSocket;
 
 import wssh.connection.OneShot;
@@ -8,23 +10,24 @@ import wssh.io.SSHOutputStream;
 
 public class SSHConnection
 {
+	private ChannelShell shellChannel;
 	private SSHInputStream toSSH;
 	private SSHOutputStream fromSSH;
 
-	public SSHConnection(WebSocket ws, String host, String username, String password)
-	{
-		this(ws, host, username, password, 22);
-	}
-
-	public SSHConnection(WebSocket ws, String host, String username, String password, int port)
+	public SSHConnection(WebSocket ws, ChannelShell shellChannel)
 	{
 		this.toSSH = new SSHInputStream();
 		this.fromSSH = new SSHOutputStream(ws);
+		this.shellChannel = shellChannel;
+
+		shellChannel.setInputStream(this.toSSH);
+		shellChannel.setOutputStream(new PrintStream(this.fromSSH));
+		shellChannel.connect();
 	}
 
 	public void disconnect()
 	{
-
+		this.shellChannel.disconnect();
 	}
 
 	synchronized public void write(String input)
