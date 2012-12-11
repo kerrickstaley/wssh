@@ -16,7 +16,8 @@ public class SSHOutputStream extends OutputStream
 	/** @Override */
 	public void write(int b)
 	{
-		System.out.println(((char) b));
+		ws.send("" + ((char) b));
+		//System.out.println(((char) b));
 	}
 }
 
