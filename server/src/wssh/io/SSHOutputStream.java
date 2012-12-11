@@ -17,7 +17,7 @@ public class SSHOutputStream extends OutputStream
 	public void write(int b)
 	{
 		String character = "" + ((char) b);
-		ws.send("{\"output\": \"" + character + "\"");
+		ws.send("{\"output\": \"" + character + "\"}");
 		//System.out.println(((char) b));
 	}
 }
