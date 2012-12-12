@@ -57,13 +57,13 @@ public class SSHInputStream extends InputStream
 			{
 				this.toSend.offer(Byte.valueOf(b[i]));
 			}
-
+*/
 			if (wasEmpty)
 			{
 				System.out.println("SSHInputStream - Waking up waiting threads, if any");
 				this.notify();
 			}
-		}
+/*		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
