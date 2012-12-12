@@ -45,7 +45,7 @@ public class SSHInputStream extends InputStream
 		for (int i = 0; i < input.length(); i++)
 		{
 			char strChar = input.charAt(i);
-			this.toSend.offer(Byte.valueOf((byte) ((strChar&0xFF00)>>8)));
+//			this.toSend.offer(Byte.valueOf((byte) ((strChar&0xFF00)>>8)));
 			this.toSend.offer(Byte.valueOf((byte) (strChar&0x00FF))); 
 		}
 
