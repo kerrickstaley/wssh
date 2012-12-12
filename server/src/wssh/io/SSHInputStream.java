@@ -11,6 +11,14 @@ public class SSHInputStream extends InputStream
 	public SSHInputStream()
 	{
 		this.toSend = new ConcurrentLinkedQueue<Byte>();
+
+		try {
+		byte[] b = "ll\n".getBytes("UTF-8");
+		for (byte b2 : b)
+		{
+			toSend.offer(Byte.valueOf(b2));
+		}
+		} catch (Exception e){e.printStackTrace();}
 	}
 
 	/** @Override */

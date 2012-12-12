@@ -20,6 +20,7 @@ public class SSHOutputStream extends OutputStream
 	/** @Override */
 	public void write(int b)
 	{
+		System.out.print(((char) b));
 		String character = SSHOutputStream.escapeString("" + ((char) b));
 		String token = "{\"output\": \"" + character + "\"}";
 		ws.send(token);
