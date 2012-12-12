@@ -13,5 +13,9 @@ extend(WsshTerminal, VT100);
 
 WsshTerminal.prototype.keysPressed = function(keys) {
 	this.superClass.keysPressed.call(this, keys);
-	send({keys: keys});
+	send({keys: keys.replace(/\r/, '\n')});
+}
+
+WsshTerminal.prototype.vt100 = function(data) {
+       this.superClass.vt100.call(this, data.replace(/\n/, '\r\n'));
 }
