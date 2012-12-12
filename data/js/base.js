@@ -489,7 +489,7 @@ $(document).ready(function()
 	});
 
     
-	socket = new WebSocket('ws://localhost:8001');
+	socket = new WebSocket('ws://' + location.host.replace(/:\d+$/, '') + ':8001');
 	socket.onmessage = socketOnmessage;
 	terminalInit();
 
