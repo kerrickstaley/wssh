@@ -60,6 +60,10 @@ public class ServerMain extends WebSocketServer
 			{
 				String keys = ((JSONString) commandObj.getItem("keys").getValue()).getValue();
 				connection.commandKeys(keys);
+			} else if (command.equals("ls"))
+			{
+			    String dir = ((JSONString) commandObj.getItem("ls").getValue()).getValue();
+			    ws.send(connection.commandLs(dir));
 			}
 		}
 	}
