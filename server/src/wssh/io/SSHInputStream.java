@@ -42,33 +42,25 @@ public class SSHInputStream extends InputStream
 		boolean wasEmpty = this.toSend.isEmpty();
 		input = SSHInputStream.unescapeString(input);
 
-		for (int i = 0; i < input.length(); i++)
-		{
-			char strChar = input.charAt(i);
-			this.toSend.offer(Byte.valueOf((byte) (strChar&0x00FF))); // low byte 
-			this.toSend.offer(Byte.valueOf((byte) ((strChar&0xFF00)>>8))); // high byte
-		}
-
 		// Convert to UTF-8
-/*		try
+		try
 		{
 			byte[] b = input.getBytes("UTF-8");
 			for (int i = 0; i < input.length(); i += 1)
 			{
 				this.toSend.offer(Byte.valueOf(b[i]));
 			}
-*/
+
 			if (wasEmpty)
 			{
 				System.out.println("SSHInputStream - Waking up waiting threads, if any");
 				this.notify();
 			}
-/*		}
+		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-*/
 
 		System.out.println("SSHInputStream - end insert to byte array");
 	}
