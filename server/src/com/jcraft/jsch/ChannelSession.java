@@ -234,7 +234,7 @@ class ChannelSession extends Channel{
   public void run(){
     //System.err.println(this+":run >");
 
-    Buffer buf=new Buffer(rmpsize);
+    Buffer buf=new Buffer(99);
     Packet packet=new Packet(buf);
     int i=-1;
     try{
