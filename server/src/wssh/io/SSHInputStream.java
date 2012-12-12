@@ -50,17 +50,25 @@ public class SSHInputStream extends InputStream
 		}
 */
 		// Convert to UTF-8
-		byte[] b = input.getBytes("UTF-8");
-		for (int i = 0; input.length(); i += 1)
+		try
 		{
-			this.toSend.offer(Byte.valueOf(b[i]);
+			byte[] b = input.getBytes("UTF-8");
+			for (int i = 0; i < input.length(); i += 1)
+			{
+				this.toSend.offer(Byte.valueOf(b[i]));
+			}
+
+			if (wasEmpty)
+			{
+				System.out.println("SSHInputStream - Waking up waiting threads, if any");
+				this.notify();
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 
-		if (wasEmpty)
-		{
-			System.out.println("SSHInputStream - Waking up waiting threads, if any");
-			this.notify();
-		}
 		System.out.println("SSHInputStream - end insert to byte array");
 	}
 
