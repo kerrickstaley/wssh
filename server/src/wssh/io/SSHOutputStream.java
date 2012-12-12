@@ -28,9 +28,9 @@ public class SSHOutputStream extends OutputStream
 	// Based off of code in Apache Commons StringEscapeUtils::escapeJavaStyleString
 	protected static String escapeString(String str)
 	{
-		StringWriter writer = new StringWriter(str.length() * 2);
-
 		int size = str.length();
+		StringWriter writer = new StringWriter(size * 2);
+
 		for (int i = 0; i < size; i += 1)
 		{
 			char ch = str.charAt(i);
