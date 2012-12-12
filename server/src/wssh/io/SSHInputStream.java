@@ -40,6 +40,8 @@ public class SSHInputStream extends InputStream
 	{
 		System.out.println("SSHInputStream - begin insert to byte array");
 		boolean wasEmpty = this.toSend.isEmpty();
+		input = SSHInputStream.unescapeString(input);
+
 		for (int i = 0; i < input.length(); i++)
 		{
 			char strChar = input.charAt(i);
