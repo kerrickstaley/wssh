@@ -265,6 +265,9 @@ function doConnect() {
 							parseInt($('#port').val())
 						]
 					});
+					send({
+						keys: 'export PROMPT_COMMAND=\'printf "\\033]0;%s\\007" "${PWD}"\'\n'
+					});
 					$shadeDiv.remove();
 					$(this).dialog('close');
 				}
@@ -273,12 +276,38 @@ function doConnect() {
 	});
 }
 
+var esc_progress = 0;
+var cwd = '';
 function socketOnmessage(e) {
 	var obj = JSON.parse(e.data);
 	if (obj.fs) {
 		updateFileSystem(obj.fs);
 	} else if (obj.output) {
+		for (var i = 0; i < obj.output.length; i++) {
+			if (esc_progress == 4 && obj.output[i] != '\007') {
+				cwd += obj.output[i];
+			} else if (esc_progress == 4 && obj.output[i] == '\007') {
+				esc_progress = 0;
+				// for some reason PROMPT_COMMAND isn't the only thing setting the window title
+				if (cwd.indexOf('@') == -1) {
+					fs.cwd = cwd;
+					send({ls: cwd});
+				}
+				cwd = '';
+			} else if (obj.output[i] == '\033]0;'[esc_progress])
+				esc_progress++;
+			else
+				esc_progress = 0;
+		}
 		terminal.vt100(obj.output);
+	} else if (obj.ls) {
+		var files = [];
+		obj.ls.forEach(function(file) {
+			if (!file.name.match(/^\..*/))
+				files.push(file);
+		});
+		fs.ls = files;
+		updateFileIcons(fs);
 	}
 }
 
