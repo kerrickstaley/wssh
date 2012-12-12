@@ -14,7 +14,9 @@ function send(obj) {
 // else the command is appended to the CLI where the user can confirm or modify the command.
 function sendCommand(cmd, userWait)
 {
-	alert('Command:\n' + cmd);
+	send({keys: cmd});
+	if (!userWait)
+		send({keys: '\n'});
 };
 
 
@@ -98,7 +100,7 @@ function updateFileIcons(fs)
 
 	// Make each folder create an event when it is double-clicked.
 	$fs_div.find('div.folder').dblclick(function(e) {
-		alert('cd ' + $(this).text());
+		sendCommand('cd ' + $(this).text());
 	});
 
 
