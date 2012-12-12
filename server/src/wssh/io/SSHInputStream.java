@@ -15,8 +15,10 @@ public class SSHInputStream extends InputStream
 	/** @Override */
 	synchronized public int read()
 	{
+		System.out.println("SSHInputStream - begin reading byte");
 		while (toSend.isEmpty())
 		{
+			System.out.println("SSHInputStream - thread waits for input");
 			try
 			{
 				this.wait();
@@ -25,14 +27,18 @@ public class SSHInputStream extends InputStream
 			{
 				e.printStackTrace();
 			}
+			System.out.println("SSHInputStream - thread notified");
 		}
 
-		return toSend.poll().intValue();
+		System.out.println("SSHInputStream - thread reads input: " + toSend.peek().intValue() + "(" + ((char) toSend.peek().intValue()) + ")");
+
+		return this.toSend.poll().intValue();
 	}
 
 	synchronized public void write(String input)
 	{
-		boolean wasEmpty = toSend.isEmpty();
+		System.out.println("SSHInputStream - begin insert to byte array");
+		boolean wasEmpty = this.toSend.isEmpty();
 		for (int i = 0; i < input.length(); i++)
 		{
 			char strChar = input.charAt(i);
@@ -42,8 +48,10 @@ public class SSHInputStream extends InputStream
 
 		if (wasEmpty)
 		{
+			System.out.println("SSHInputStream - Waking up waiting threads, if any");
 			this.notify();
 		}
+		System.out.println("SSHInputStream - end insert to byte array");
 	}
 }
 

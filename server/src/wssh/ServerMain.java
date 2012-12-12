@@ -59,7 +59,6 @@ public class ServerMain extends WebSocketServer
 			if (command.equals("keys"))
 			{
 				String keys = ((JSONString) commandObj.getItem("keys").getValue()).getValue();
-				System.out.println(keys);
 				connection.commandKeys(keys);
 			}
 		}
@@ -68,7 +67,10 @@ public class ServerMain extends WebSocketServer
 	public void onClose(WebSocket ws, int code, String reason, boolean remote)
 	{
 		Connection connection = this.connections.get(ws);
-		connection.disconnect();
+		if (connection != null)
+		{
+			connection.disconnect();
+		}
 	}
 
 	public void onError(WebSocket ws, Exception ex)

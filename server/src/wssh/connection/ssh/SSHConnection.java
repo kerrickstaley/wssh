@@ -42,6 +42,7 @@ public class SSHConnection
 
 	synchronized public void write(String input)
 	{
+		System.out.println("SSHConnection - writing input: " + input);
 		this.toSSH.write(input);
 	}
 }

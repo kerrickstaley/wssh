@@ -21,9 +21,7 @@ public class SSHOutputStream extends OutputStream
 	public void write(int b)
 	{
 		String character = SSHOutputStream.escapeString("" + ((char) b));
-		System.out.println(character);
 		String token = "{\"output\": \"" + character + "\"}";
-		System.out.println(token);
 		ws.send(token);
 	}
 
