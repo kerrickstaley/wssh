@@ -291,6 +291,8 @@ function socketOnmessage(e) {
 				// for some reason PROMPT_COMMAND isn't the only thing setting the window title
 				if (cwd.indexOf('@') == -1) {
 					fs.cwd = cwd;
+					// TODO: Why is this necessary?
+					updateFileSystem(fs);	
 					send({ls: cwd});
 				}
 				cwd = '';
