@@ -384,29 +384,8 @@ $(document).ready(function()
 {
 	// fill div#file-system and div#path-bar with some initial data:
 	var new_fs = {
-		cwd: '/home/user',
-		ls: [
-				{
-					name: 'folder1',
-					isdir: true
-				},
-				{
-					name: 'folder2',
-					isdir: true
-				},
-				{
-					name: 'file1.txt',
-					isdir: false
-				},
-				{
-					name: 'This file has a long name.txt',
-					isdir: false
-				},
-				{
-					name: 'this_is_also_quite_long.txt',
-					isdir: false
-				}
-			]
+		cwd: '/',
+		ls: []
 	};
 	
 	updateFileSystem(new_fs);
