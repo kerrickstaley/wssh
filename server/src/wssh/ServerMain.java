@@ -15,10 +15,6 @@ import JavaJSON.JSONString;
 import wssh.connection.Connection;
 
 // TODO remove
-import com.jcraft.jsch.*;
-import java.io.PrintStream;
-import wssh.connection.ssh.SSHConnection;
-import wssh.io.SSHOutputStream;
 
 public class ServerMain extends WebSocketServer
 {
