@@ -417,7 +417,7 @@ $(document).ready(function()
 
 	$('div#new-file-icon').on('click', function(e) {
 		var filename = prompt("Enter the new file's name:");
-		send({touch: filename});
+		send({touch: fs.cwd + '/' + filename});
 	});
 
 	$('div#new-folder-icon').on('click', function(e) {
